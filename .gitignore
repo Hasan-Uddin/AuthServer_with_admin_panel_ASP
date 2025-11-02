@@ -398,3 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 .containers/
+
+# Application settings with sensitive data
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
