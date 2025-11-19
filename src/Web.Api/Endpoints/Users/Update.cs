@@ -11,8 +11,6 @@ internal sealed class Update : IEndpoint
 {
     public sealed class Request
     {
-        public Guid UserId { get; set; }
-
         public string? Fullname { get; set; }
 
         public string? Email { get; set; }
@@ -36,8 +34,7 @@ internal sealed class Update : IEndpoint
             CancellationToken cancellationToken) =>
             {
                 var command = new UpdateUserCommand(
-
-                    UserId: request.UserId,
+                    UserId: id,
                     Fullname: request.Fullname,
                     Email: request.Email,
                     Password: request.Password,
@@ -45,7 +42,6 @@ internal sealed class Update : IEndpoint
                     Status: request.Status,
                     IsMFAEnabled: request.IsMFAEnabled,
                     IsEmailVerified: request.IsEmailVerified
-
                 );
 
                 Result result = await handler.Handle(command, cancellationToken);
