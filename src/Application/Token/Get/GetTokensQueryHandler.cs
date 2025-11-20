@@ -27,12 +27,21 @@ internal sealed class GetTokensQueryHandler : IQueryHandler<GetTokensQuery, List
             .Where(tokens => tokens.UserId == query.UserId)
             .Select(tokens => new TokenResponse
             {
+<<<<<<< Updated upstream
                 TokenId = tokens.TokenId,
                 UserId = tokens.UserId,
                 AppId = tokens.AppId,
                 Accesstoken = tokens.Accesstoken,
                 Refreshtoken = tokens.Refreshtoken,
                 IssuedAt = tokens.IssuedAt
+=======
+                Id = tokens.Id,
+                User_id = tokens.User_id,
+                App_id = tokens.App_id,
+                Access_token = tokens.Access_token,
+                Refresh_token = tokens.Refresh_token,
+                Issued_at = tokens.Issued_at
+>>>>>>> Stashed changes
             }).ToListAsync(cancellationToken);
 
         return tokens;

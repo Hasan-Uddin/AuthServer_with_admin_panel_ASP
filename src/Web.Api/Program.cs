@@ -23,6 +23,11 @@ builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 WebApplication app = builder.Build();
 
+<<<<<<< Updated upstream
+=======
+app.UseDeveloperExceptionPage();
+app.UseDeveloperExceptionPage();
+>>>>>>> Stashed changes
 
 app.MapEndpoints();
 
