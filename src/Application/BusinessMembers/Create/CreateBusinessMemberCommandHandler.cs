@@ -37,6 +37,15 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
                 Error.NotFound("User.NotFound", "The specified user does not exist."));
         }
 
+        bool roleExists = await _context.Roles
+            .AnyAsync(r => r.Id == command.RoleId, cancellationToken);
+
+        if (!roleExists)
+        {
+            return Result.Failure<Guid>(
+                Error.NotFound("Role.NotFound", "The specified role does not exist."));
+        }
+
         var member = new BusinessMember
         {
             Id = Guid.NewGuid(),
@@ -48,6 +57,8 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
 
         _context.BusinessMembers.Add(member);
         await _context.SaveChangesAsync(cancellationToken);
+
         return Result.Success(member.Id);
     }
+
 }
