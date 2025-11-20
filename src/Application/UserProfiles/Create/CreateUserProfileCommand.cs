@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Messaging;
 
 namespace Application.UserProfiles.Create;
+
 public sealed class CreateUserProfileCommand : ICommand<Guid>
 {
     public Guid UserId { get; set; } // Fk of User.Id

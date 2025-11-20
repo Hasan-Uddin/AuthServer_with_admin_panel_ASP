@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Application.UserProfiles.Create;
+
 public class CreateUserProfileCommandValidator : AbstractValidator<CreateUserProfileCommand>
 {
     public CreateUserProfileCommandValidator()

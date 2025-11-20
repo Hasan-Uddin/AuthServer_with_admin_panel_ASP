@@ -1,4 +1,6 @@
-﻿namespace Application.UserProfiles.Get;
+﻿
+namespace Application.UserProfiles.Get;
+
 public sealed class UserProfileResponse
 {
     public Guid UserId { get; set; } // Fk of User.Id

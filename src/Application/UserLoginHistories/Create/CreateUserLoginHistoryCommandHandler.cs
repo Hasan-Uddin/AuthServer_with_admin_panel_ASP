@@ -8,6 +8,7 @@ using SharedKernel;
 using Status = Domain.UserLoginHistories.Status;
 
 namespace Application.UserLoginHistories.Create;
+
 internal class CreateUserLoginHistoryCommandHandler(
     IApplicationDbContext context,
     IDateTimeProvider dateTimeProvider,

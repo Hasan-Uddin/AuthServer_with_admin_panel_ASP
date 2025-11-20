@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.UserProfiles;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Domain.UserProfiles;
+namespace Infrastructure.UserProfiles;
 
 public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 {

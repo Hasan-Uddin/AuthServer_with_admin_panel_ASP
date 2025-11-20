@@ -1,6 +1,7 @@
 ﻿using Domain.UserLoginHistories;
 
 namespace Application.UserLoginHistories.GetByUserId;
+
 public sealed class UserLoginHistoryResponse
 {
     public Guid Id { get; set; }

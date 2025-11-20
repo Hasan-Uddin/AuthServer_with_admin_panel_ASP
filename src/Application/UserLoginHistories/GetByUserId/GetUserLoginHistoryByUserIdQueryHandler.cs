@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.UserLoginHistories.GetByUserId;
+
 internal class GetUserLoginHistoryByUserIdQueryHandler(
     IApplicationDbContext context, IUserContext userContext)
     : IQueryHandler<GetUserLoginHistoryByUserIdQuery, List<UserLoginHistoryResponse>>

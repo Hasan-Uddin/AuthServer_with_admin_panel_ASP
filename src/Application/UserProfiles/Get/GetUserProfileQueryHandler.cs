@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.UserProfiles.Get;
+
 internal sealed class GetUserProfileQueryHandler(
     IApplicationDbContext context,
     IUserContext userContext)

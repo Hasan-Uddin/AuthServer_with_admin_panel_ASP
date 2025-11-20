@@ -18,7 +18,6 @@ internal sealed class GetByUserId : IEndpoint
             var query = new GetUserLoginHistoryByUserIdQuery(userId);
 
             Result<List<UserLoginHistoryResponse>> result = await handler.Handle(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
         })
         .WithTags(Tags.UserLoginHistory)
