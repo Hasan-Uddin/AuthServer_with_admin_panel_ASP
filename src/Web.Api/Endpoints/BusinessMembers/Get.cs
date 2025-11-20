@@ -15,9 +15,7 @@ public class Get : IEndpoint
         {
             var query = new GetBusinessMembersQuery();
             SharedKernel.Result<List<BusinessMemberResponse>> result = await handler.Handle(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
-
         })
         .WithTags(Tags.BusinessMembers)
         .RequireAuthorization();

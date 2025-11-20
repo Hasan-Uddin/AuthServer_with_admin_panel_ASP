@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Application.BusinessMembers.Get;
 
-namespace Application.BusinessMembers.Get;
 public sealed class BusinessMemberResponse
 {
     public Guid Id { get; set; }

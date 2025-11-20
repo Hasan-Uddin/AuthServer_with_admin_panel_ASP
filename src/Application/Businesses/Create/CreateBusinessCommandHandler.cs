@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Businesses;
 using SharedKernel;
@@ -11,7 +8,6 @@ namespace Application.Businesses.Create;
 public class CreateBusinessCommandHandler : ICommandHandler<CreateBusinessCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
-
     public CreateBusinessCommandHandler(IApplicationDbContext context)
     {
         _context = context;
@@ -33,7 +29,6 @@ public class CreateBusinessCommandHandler : ICommandHandler<CreateBusinessComman
 
         _context.Businesses.Add(business);
         await _context.SaveChangesAsync(cancellationToken);
-
-        return Result.Success(business.Id); // Interface expects Result<Guid>
+        return Result.Success(business.Id);
     }
 }

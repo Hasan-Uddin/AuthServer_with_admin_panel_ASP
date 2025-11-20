@@ -7,4 +7,5 @@ public static class Tags
     public const string Customers = "Customers";
     public const string Businesses = "Businesses";
     public const string BusinessMembers = "Business Members";
+    public const string Roles = "Roles";  
 }

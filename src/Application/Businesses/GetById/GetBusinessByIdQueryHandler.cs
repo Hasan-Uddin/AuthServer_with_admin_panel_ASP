@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Businesses.GetById;
+
 internal sealed class GetBusinessByIdQueryHandler : IQueryHandler<GetBusinessByIdQuery, BusinessResponse>
 {
     private readonly IApplicationDbContext _context;
-
     public GetBusinessByIdQueryHandler(IApplicationDbContext context)
     {
         _context = context;
@@ -36,7 +31,9 @@ internal sealed class GetBusinessByIdQueryHandler : IQueryHandler<GetBusinessByI
 
         if (business is null)
         {
-            return Result.Failure<BusinessResponse>($"Business with Id {request.Id} not found.");
+            return Result.Failure<BusinessResponse>(
+                Error.NotFound("Business.NotFound", $"Business with Id {request.Id} not found.")
+            );
         }
 
         return Result.Success(business);

@@ -16,7 +16,7 @@ internal sealed class CreateTodoCommandHandler(
 {
     public async Task<Result<Guid>> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
     {
-        if (userContext.OwnerUserId != command.UserId)
+        if (userContext.UserId != command.UserId)
         {
             return Result.Failure<Guid>(UserErrors.Unauthorized());
         }

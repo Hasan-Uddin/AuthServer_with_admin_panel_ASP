@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251116124339_BusinessBusinessMembersRoles")]
+    [Migration("20251119174449_BusinessBusinessMembersRoles")]
     partial class BusinessBusinessMembersRoles
     {
         /// <inheritdoc />

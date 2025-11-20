@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.BusinessMembers.Delete;
+
 public sealed class DeleteBusinessMemberCommandHandler
     : ICommandHandler<DeleteBusinessMemberCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
-
     public DeleteBusinessMemberCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<Result<Guid>> Handle(
+    public async Task<Result<Guid>> Handle(    
         DeleteBusinessMemberCommand command,
         CancellationToken cancellationToken)
     {
@@ -33,9 +28,7 @@ public sealed class DeleteBusinessMemberCommandHandler
         }
 
         _context.BusinessMembers.Remove(member);
-
         await _context.SaveChangesAsync(cancellationToken);
-
         return Result.Success(command.Id);
     }
 }

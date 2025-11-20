@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Roles.Create;
 using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Roles;
 
@@ -8,7 +9,7 @@ internal sealed class Create : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("Roles", async (
+        app.MapPost("roles", async (
             CreateRoleCommand request,
             ICommandHandler<CreateRoleCommand, Guid> handler,
             CancellationToken cancellationToken) =>
@@ -19,12 +20,8 @@ internal sealed class Create : IEndpoint
             );
 
             SharedKernel.Result<Guid> result = await handler.Handle(command, cancellationToken);
-
-            return result.Match(
-                id => Results.Created($"/roles/{id}", new { id }),
-                error => error.ToProblemDetails()
-            );
+            return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags("Roles");
+        .WithTags(Tags.Roles);
     }
 }

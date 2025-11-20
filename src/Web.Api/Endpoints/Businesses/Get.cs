@@ -16,13 +16,9 @@ public class Get : IEndpoint
             IUserContext userContext,
             CancellationToken cancellationToken) =>
         {
-            // Logged-in user এর Id
-            var query = new GetBusinessesQuery(userContext.OwnerUserId);
-
+            var query = new GetBusinessesQuery(userContext.UserId);
             Result<List<BusinessResponse>> result = await handler.Handle(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
-
         })
         .WithTags(Tags.Businesses)
         .RequireAuthorization();

@@ -12,7 +12,7 @@ internal sealed class GetUserByIdQueryHandler(IApplicationDbContext context, IUs
 {
     public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        if (query.UserId != userContext.OwnerUserId)
+        if (query.UserId != userContext.UserId)
         {
             return Result.Failure<UserResponse>(UserErrors.Unauthorized());
         }

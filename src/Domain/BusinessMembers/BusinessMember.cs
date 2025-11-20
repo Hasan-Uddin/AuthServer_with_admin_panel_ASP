@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SharedKernel;
 
 namespace Domain.BusinessMembers;
-public class BusinessMember
+
+public class BusinessMember : Entity
 {
     public Guid Id { get; set; }
     public Guid BusinessId { get; set; }

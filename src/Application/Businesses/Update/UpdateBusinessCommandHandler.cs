@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Businesses;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Businesses.Update;
+
 internal sealed class UpdateBusinessCommandHandler : ICommandHandler<UpdateBusinessCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
@@ -26,17 +22,20 @@ internal sealed class UpdateBusinessCommandHandler : ICommandHandler<UpdateBusin
 
         if (business is null)
         {
-            return Result.Failure<Guid>($"Business with Id {request.Id} not found.");
+            return Result.Failure<Guid>(
+                Error.NotFound(
+                    "Business.NotFound",
+                    $"Business with Id {request.Id} not found."
+                )
+            );
         }
 
-        // Update fields
         business.BusinessName = request.BusinessName;
         business.IndustryType = request.IndustryType;
         business.LogoUrl = request.LogoUrl;
-        business.Status = Status.defaultValue;
+        business.Status = request.Status;
 
         await _context.SaveChangesAsync(cancellationToken);
-
         return Result.Success(business.Id);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Businesses.Create;
 using Domain.Businesses;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
@@ -18,37 +16,31 @@ public class Create : IEndpoint
         public string IndustryType { get; set; }
         public string LogoUrl { get; set; }
         public Status Status { get; set; }
-        public DateTime CreatedAt { get; set; }
     }
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
 
         app.MapPost("/businesses", async (
-            Request request,
-            ICommandHandler<CreateBusinessCommand, Guid> handler,
-             HttpContext httpContext,
-            CancellationToken cancellationToken) =>
-
+     Request request,
+     ICommandHandler<CreateBusinessCommand, Guid> handler,
+     CancellationToken cancellationToken) =>
         {
-
             var command = new CreateBusinessCommand
-
             {
                 OwnerUserId = request.OwnerUserId,
                 BusinessName = request.BusinessName,
                 IndustryType = request.IndustryType,
                 LogoUrl = request.LogoUrl,
                 Status = request.Status,
-
             };
 
-            // Handle command using CQRS handler
             Result<Guid> result = await handler.Handle(command, cancellationToken);
 
-            // Return HTTP 200 OK if success, ProblemDetails if failure
-            return result.Match(Results.Ok, CustomResults.Problem);
-
+            return result.Match(
+                id => Results.Created($"/businesses/{id}", new { id }),
+                CustomResults.Problem
+            );
         })
         .WithTags(Tags.Businesses)
         .RequireAuthorization();

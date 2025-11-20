@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Application.Roles.Get;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Roles.GetById;
+
 internal sealed class GetRoleByIdQueryHandler
     : IQueryHandler<GetRoleByIdQuery, RoleResponse>
 {
     private readonly IApplicationDbContext _context;
-
     public GetRoleByIdQueryHandler(IApplicationDbContext context)
     {
         _context = context;

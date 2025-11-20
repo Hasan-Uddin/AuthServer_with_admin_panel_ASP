@@ -16,9 +16,7 @@ public class GetById : IEndpoint
         {
             var query = new GetBusinessMemberByIdQuery(id);
             SharedKernel.Result<BusinessMemberResponse> result = await handler.Handle(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
-
         })
         .WithTags(Tags.BusinessMembers)
         .RequireAuthorization();

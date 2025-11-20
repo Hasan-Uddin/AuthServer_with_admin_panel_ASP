@@ -1,12 +1,8 @@
 using System.Reflection;
 using Application;
-using Application.Abstractions.Messaging;
-using Application.Businesses.Create;
 using HealthChecks.UI.Client;
 using Infrastructure;
-using Infrastructure.Database;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Web.Api;
 using Web.Api.Extensions;

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Authentication;
+﻿using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Businesses.Get;
+
 internal sealed class GetBusinessesQueryHandler : IQueryHandler<GetBusinessesQuery, List<BusinessResponse>>
 {
     private readonly IApplicationDbContext _context;
@@ -25,7 +21,7 @@ internal sealed class GetBusinessesQueryHandler : IQueryHandler<GetBusinessesQue
         GetBusinessesQuery request,
         CancellationToken cancellationToken)
     {
-        Guid userId = _userContext.OwnerUserId;
+        Guid userId = _userContext.UserId;
 
         List<BusinessResponse> businesses = await _context.Businesses
             .Where(b => b.OwnerUserId == userId)
@@ -40,7 +36,6 @@ internal sealed class GetBusinessesQueryHandler : IQueryHandler<GetBusinessesQue
                 CreatedAt = b.CreatedAt
             })
             .ToListAsync(cancellationToken);
-
         return Result.Success(businesses);
     }
 }

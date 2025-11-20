@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Roles;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Roles.Create;
+
 internal sealed class CreateRoleCommandHandler : ICommandHandler<CreateRoleCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
@@ -37,7 +33,6 @@ internal sealed class CreateRoleCommandHandler : ICommandHandler<CreateRoleComma
 
         _context.Roles.Add(role);
         await _context.SaveChangesAsync(cancellationToken);
-
         return Result.Success(role.Id);
     }
 }

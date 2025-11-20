@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Businesses;
 
-namespace Domain.Businesses;
 public enum Status
 {
-     inactive = 0,
-     active = 1,
-     defaultValue = 2
+     Inactive = 0,
+     Active = 1,
 }

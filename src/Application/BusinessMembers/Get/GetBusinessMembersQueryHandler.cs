@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.BusinessMembers.Get;
+
 internal sealed class GetAllBusinessMembersQueryHandler : IQueryHandler<GetBusinessMembersQuery, List<BusinessMemberResponse>>
 {
     private readonly IApplicationDbContext _context;
-
     public GetAllBusinessMembersQueryHandler(IApplicationDbContext context)
     {
         _context = context;
@@ -30,15 +25,7 @@ internal sealed class GetAllBusinessMembersQueryHandler : IQueryHandler<GetBusin
                 JoinedAt = bm.JoinedAt
             })
             .ToListAsync(cancellationToken);
-
-        if (!members.Any())
-        {
-            return Result.Failure<List<BusinessMemberResponse>>(
-                SharedKernel.Error.NotFound("BusinessMembers.NotFound", "No business members found.")
-            );
-        }
-
-        return Result.Success(members);
+             return Result.Success(members);
     }
 }
 

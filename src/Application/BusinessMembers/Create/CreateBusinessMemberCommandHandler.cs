@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.BusinessMembers;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.BusinessMembers.Create;
+
 public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateBusinessMemberCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
@@ -23,7 +19,6 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
 
     public async Task<Result<Guid>> Handle(CreateBusinessMemberCommand command, CancellationToken cancellationToken)
     {
-        // Check if Business exists
         bool businessExists = await _context.Businesses
             .AnyAsync(b => b.Id == command.BusinessId, cancellationToken);
 
@@ -33,7 +28,6 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
                 Error.NotFound("Business.NotFound", "The specified business does not exist."));
         }
 
-        // Check if User exists
         bool userExists = await _context.Users
             .AnyAsync(u => u.Id == command.UserId, cancellationToken);
 
@@ -43,19 +37,17 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
                 Error.NotFound("User.NotFound", "The specified user does not exist."));
         }
 
-        // Create BusinessMember entry
         var member = new BusinessMember
         {
             Id = Guid.NewGuid(),
             BusinessId = command.BusinessId,
             UserId = command.UserId,
             RoleId = command.RoleId,
-            JoinedAt = _dateTimeProvider.UtcNow  // centralized provider
+            JoinedAt = _dateTimeProvider.UtcNow
         };
 
         _context.BusinessMembers.Add(member);
         await _context.SaveChangesAsync(cancellationToken);
-
         return Result.Success(member.Id);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Roles.Get;
 using Application.Roles.GetById;
 using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Roles;
 
@@ -15,14 +15,9 @@ internal sealed class GetById : IEndpoint
             CancellationToken cancellationToken) =>
         {
             var query = new GetRoleByIdQuery(id);
-
             SharedKernel.Result<Application.Roles.Get.RoleResponse> result = await handler.Handle(query, cancellationToken);
-
-            return result.Match(
-                role => Results.Ok(role),
-                error => error.ToProblemDetails()
-            );
+            return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags("Roles");
+        .WithTags(Tags.Roles);
     }
 }

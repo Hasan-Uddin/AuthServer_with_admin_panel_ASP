@@ -12,7 +12,7 @@ internal sealed class UserContext : IUserContext
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Guid OwnerUserId =>
+    public Guid UserId =>
         _httpContextAccessor
             .HttpContext?
             .User

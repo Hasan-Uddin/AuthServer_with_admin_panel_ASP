@@ -9,17 +9,14 @@ public class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/Businesses/{id:guid}", async (
-            Guid id,
-            IQueryHandler<GetBusinessByIdQuery, BusinessResponse> handler,
-            CancellationToken cancellationToken) =>
+        app.MapGet("/businesses/{id:guid}", async (
+        Guid id,
+        IQueryHandler<GetBusinessByIdQuery, BusinessResponse> handler,
+        CancellationToken cancellationToken) =>
         {
             var query = new GetBusinessByIdQuery(id);
-
             SharedKernel.Result<BusinessResponse> result = await handler.Handle(query, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
-
         })
         .WithTags(Tags.Businesses)
         .RequireAuthorization();

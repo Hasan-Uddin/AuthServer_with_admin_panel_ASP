@@ -17,9 +17,9 @@ public class Create : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("/business-members", async (
-        Create.Request request,
-        ICommandHandler<CreateBusinessMemberCommand, Guid> handler,
-        CancellationToken cancellationToken) =>
+            Create.Request request,
+            ICommandHandler<CreateBusinessMemberCommand, Guid> handler,
+            CancellationToken cancellationToken) =>
         {
             var command = new CreateBusinessMemberCommand(
                 request.BusinessId,
@@ -30,9 +30,8 @@ public class Create : IEndpoint
             SharedKernel.Result<Guid> result = await handler.Handle(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
-
         })
-         .WithTags(Tags.BusinessMembers)
-         .RequireAuthorization();
+        .WithTags(Tags.BusinessMembers)
+        .RequireAuthorization();
     }
 }

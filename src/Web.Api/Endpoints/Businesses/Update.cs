@@ -21,11 +21,9 @@ public class Update : IEndpoint
             }
 
             SharedKernel.Result<Guid> result = await handler.Handle(request, cancellationToken);
-
             return result.Match(Results.Ok, CustomResults.Problem);
-
         })
-.WithTags(Tags.Businesses)
-.RequireAuthorization();
+          .WithTags(Tags.Businesses)
+          .RequireAuthorization();
     }
 }

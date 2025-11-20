@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Roles.Delete;
 using Web.Api.Extensions;
+using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Roles;
 
@@ -14,14 +15,9 @@ internal sealed class Delete : IEndpoint
             CancellationToken cancellationToken) =>
         {
             var command = new DeleteRoleCommand(id);
-
             SharedKernel.Result<Guid> result = await handler.Handle(command, cancellationToken);
-
-            return result.Match(
-                value => Results.NoContent(),
-                error => error.ToProblemDetails()
-            );
+            return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags("Roles");
+        .WithTags(Tags.Roles);
     }
 }

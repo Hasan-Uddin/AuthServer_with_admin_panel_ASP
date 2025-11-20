@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Messaging;
+﻿using Application.Abstractions.Messaging;
+using Domain.Businesses;
 
 namespace Application.Businesses.Update;
+
 public sealed record UpdateBusinessCommand(
     Guid Id,
     string BusinessName,
     string IndustryType,
-#pragma warning disable CA1054 // URI-like parameters should not be strings
+#pragma warning disable CA1054
     string LogoUrl,
-#pragma warning restore CA1054 // URI-like parameters should not be strings
-    string Status
+#pragma warning restore CA1054
+    Status Status
 ) : ICommand<Guid>;

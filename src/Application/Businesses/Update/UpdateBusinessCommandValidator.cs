@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Application.Businesses.Update;
+
 public sealed class UpdateBusinessCommandValidator : AbstractValidator<UpdateBusinessCommand>
 {
     public UpdateBusinessCommandValidator()
@@ -14,9 +10,7 @@ public sealed class UpdateBusinessCommandValidator : AbstractValidator<UpdateBus
         RuleFor(x => x.BusinessName).NotEmpty().WithMessage("Business Name is required.");
         RuleFor(x => x.IndustryType).NotEmpty().WithMessage("Industry Type is required.");
         RuleFor(x => x.Status)
-            .NotEmpty()
-            .WithMessage("Status is required.")
-            .Must(s => s == "active" || s == "inactive")
-            .WithMessage("Status must be either 'active' or 'inactive'.");
+            .IsInEnum()
+            .WithMessage("Status must be either Active or Inactive.");
     }
 }

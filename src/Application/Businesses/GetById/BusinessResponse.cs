@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Businesses;
+﻿using Domain.Businesses;
 
 namespace Application.Businesses.GetById;
+
 public sealed class BusinessResponse
 {
     public Guid Id { get; set; }
