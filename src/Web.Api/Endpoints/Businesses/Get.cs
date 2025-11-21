@@ -16,7 +16,7 @@ public class Get : IEndpoint
             IUserContext userContext,
             CancellationToken cancellationToken) =>
         {
-            var query = new GetBusinessesQuery(userContext.UserId);
+            var query = new GetBusinessesQuery();
             Result<List<BusinessResponse>> result = await handler.Handle(query, cancellationToken);
             return result.Match(Results.Ok, CustomResults.Problem);
         })
