@@ -1,6 +1,8 @@
 ﻿using Application.Abstractions.Data;
+using Domain.Customers;
 using Domain.EmailVerification;
 using Domain.PasswordResets;
+using Domain.Todos;
 using Domain.Token;
 using Domain.Users;
 using Infrastructure.DomainEvents;
@@ -18,6 +20,8 @@ public sealed class ApplicationDbContext(
     public DbSet<EmailVerifications> EmailVerifications { get; set; }
     public DbSet<PasswordReset> PasswordReset { get; set; }
     public DbSet<Tokens> Tokens { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<TodoItem> TodoItems { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
