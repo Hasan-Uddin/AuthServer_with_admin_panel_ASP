@@ -1,14 +1,20 @@
-﻿using Domain.Applications;
+﻿using Application.Abstractions.Data;
+using Domain.Applications;
 using Domain.Customers;
 using Domain.EmailVerification;
 using Domain.PasswordResets;
+using Domain.Permissions;
+using Domain.RolePermissions;
+using Domain.Roles;
 using Domain.Todos;
 using Domain.Token;
+using Domain.UserLoginHistories;
+using Domain.UserProfiles;
 using Domain.Users;
-using Microsoft.EntityFrameworkCore;
 using Infrastructure.DomainEvents;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SharedKernel;
-using Application.Abstractions.Data;
 
 namespace Infrastructure.Database;
 
@@ -23,7 +29,16 @@ public sealed class ApplicationDbContext(
     public DbSet<Tokens> Tokens { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<TodoItem> TodoItems { get; set; }
+    public DbSet<UserLoginHistory> UserLoginHistory { get; set; }
+    public DbSet<UserProfile> UserProfile { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
+    public DbSet<Applicationapply> Applications { get; set; }
+    public DbSet<RolePermission> RolePermissions { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    
 
+
+    public new EntityEntry Entry(object entity) => base.Entry(entity);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -8,4 +8,6 @@ public static class Tags
     public const string EmailVerifications = "Email Verification";
     public const string PasswordReset = "Password Reset";
     public const string Token = "Token";
+    public const string UserLoginHistory = "UserLoginHistory";
+    public const string UserProfile = "UserProfile";
 }
