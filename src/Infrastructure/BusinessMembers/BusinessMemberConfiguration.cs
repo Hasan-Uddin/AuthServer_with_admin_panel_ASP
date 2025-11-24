@@ -8,22 +8,18 @@ public class BusinessMemberConfiguration : IEntityTypeConfiguration<BusinessMemb
 {
     public void Configure(EntityTypeBuilder<BusinessMember> builder)
     {
-        builder.ToTable("business_members");
-        builder.HasKey(bm => bm.Id);
-        builder.Property(bm => bm.Id)
-            .HasColumnName("id")
-            .ValueGeneratedOnAdd();
-        builder.Property(bm => bm.BusinessId)
-            .HasColumnName("business_id")
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.BusinessId)
             .IsRequired();
-        builder.Property(bm => bm.UserId)
-            .HasColumnName("user_id")
+
+        builder.Property(x => x.UserId)
             .IsRequired();
-        builder.Property(bm => bm.RoleId)
-            .HasColumnName("role_id")
+
+        builder.Property(x => x.RoleId)
             .IsRequired();
-        builder.Property(bm => bm.JoinedAt)
-            .HasColumnName("joined_at")
+
+        builder.Property(x => x.JoinedAt)
             .IsRequired();
     }
 }

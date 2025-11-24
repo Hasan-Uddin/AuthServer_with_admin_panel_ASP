@@ -8,21 +8,18 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
-        builder.ToTable("roles");
-        builder.HasKey(r => r.Id);
-        builder.Property(r => r.Id)
-            .HasColumnName("id")
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Id)
             .IsRequired();
-        builder.Property(r => r.RoleName)
-            .HasColumnName("role_name")
+
+        builder.Property(x => x.RoleName)
             .HasMaxLength(100)
             .IsRequired();
-        builder.Property(r => r.Description)
-            .HasColumnName("description")
-            .HasColumnType("text");
-        builder.HasIndex(r => r.RoleName)
+
+        builder.Property(x => x.Description);
+
+        builder.HasIndex(x => x.RoleName)
             .IsUnique();
-
-
     }
 }

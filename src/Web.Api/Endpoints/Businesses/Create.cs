@@ -20,11 +20,10 @@ public class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-
         app.MapPost("/businesses", async (
-     Request request,
-     ICommandHandler<CreateBusinessCommand, Guid> handler,
-     CancellationToken cancellationToken) =>
+        Request request,
+        ICommandHandler<CreateBusinessCommand, Guid> handler,
+        CancellationToken cancellationToken) =>
         {
             var command = new CreateBusinessCommand
             {

@@ -20,7 +20,7 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
     public async Task<Result<Guid>> Handle(CreateBusinessMemberCommand command, CancellationToken cancellationToken)
     {
         bool businessExists = await _context.Businesses
-            .AnyAsync(b => b.Id == command.BusinessId, cancellationToken);
+     .AnyAsync(b => b.Id == command.BusinessId, cancellationToken);
 
         if (!businessExists)
         {
@@ -38,12 +38,22 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
         }
 
         bool roleExists = await _context.Roles
-       .AnyAsync(r => r.Id == command.RoleId, cancellationToken);
+            .AnyAsync(r => r.Id == command.RoleId, cancellationToken);
 
         if (!roleExists)
         {
             return Result.Failure<Guid>(
                 Error.NotFound("Role.NotFound", "The specified role does not exist."));
+        }
+
+        bool alreadyMember = await _context.BusinessMembers
+            .AnyAsync(m => m.BusinessId == command.BusinessId
+                        && m.UserId == command.UserId, cancellationToken);
+
+        if (alreadyMember)
+        {
+            return Result.Failure<Guid>(
+                Error.Conflict("BusinessMember.Exists", "This user is already a member of the business."));
         }
 
         var member = new BusinessMember
@@ -55,7 +65,7 @@ public sealed class CreateBusinessMemberCommandHandler : ICommandHandler<CreateB
             JoinedAt = _dateTimeProvider.UtcNow
         };
 
-        _context.BusinessMembers.Add(member);
+        await _context.BusinessMembers.AddAsync(member, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Result.Success(member.Id);
