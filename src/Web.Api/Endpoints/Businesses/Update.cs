@@ -12,7 +12,7 @@ public class Update : IEndpoint
         app.MapPut("/businesses/{id:guid}", static async (
         Guid id,
         UpdateBusinessCommand request,
-        ICommandHandler<UpdateBusinessCommand, Guid> handler,
+        ICommandHandler<UpdateBusinessCommand> handler,
         CancellationToken cancellationToken) =>
         {
             if (id != request.Id)
