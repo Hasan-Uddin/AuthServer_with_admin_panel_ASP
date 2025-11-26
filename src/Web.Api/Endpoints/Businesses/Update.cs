@@ -11,7 +11,6 @@ public class Update : IEndpoint
 {
     public sealed class Request
     {
-        public Guid Id { get; set; }
         public string BusinessName { get; set; }
         public string IndustryType { get; set; }
         public string LogoUrl { get; set; }
@@ -21,13 +20,14 @@ public class Update : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPut("/businesses/{id:guid}", static async (
-        Request request,
-        ICommandHandler<UpdateBusinessCommand> handler,
-        CancellationToken cancellationToken) =>
+            Guid id,
+            Request request,
+            ICommandHandler<UpdateBusinessCommand> handler,
+            CancellationToken cancellationToken) =>
         {
             var command = new UpdateBusinessCommand
             {
-                Id = request.Id,
+                Id = id,
                 BusinessName = request.BusinessName,
                 IndustryType = request.IndustryType,
                 LogoUrl = request.LogoUrl,
