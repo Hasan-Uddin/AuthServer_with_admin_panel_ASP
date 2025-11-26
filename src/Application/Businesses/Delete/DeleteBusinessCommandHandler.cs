@@ -31,6 +31,6 @@ internal sealed class DeleteBusinessCommandHandler : ICommandHandler<DeleteBusin
 
         _context.Businesses.Remove(business);
         await _context.SaveChangesAsync(cancellationToken);
-        return Result.Success(business.Id);
+        return Result.Success();
     }
 }
