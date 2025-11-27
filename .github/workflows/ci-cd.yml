@@ -2,7 +2,7 @@ name: Auth Server CI/CD
 
 on:
   push:
-    branches: ["main", "Dev"]
+    branches: ["main"]
 
 jobs:
   build-and-push:
