@@ -2,7 +2,7 @@ name: Auth Server CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "Dev"]
 
 jobs:
   build-and-push:
@@ -57,4 +57,3 @@ jobs:
   #           docker image prune -f || true
   #           echo "Cleaned unused Docker images"
   #           echo "Deployment complete"
-
