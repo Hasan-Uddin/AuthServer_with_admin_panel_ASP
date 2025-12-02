@@ -5,6 +5,7 @@ using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Users;
+using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Users.GetAll;
@@ -20,7 +21,8 @@ internal sealed class GetAllUsersQueryHandler(
             return Result.Failure<List<GetAllUsersQueryResponse>>(UserErrors.Unauthorized());
         }
 
-        var users = context.Users
+        List<GetAllUsersQueryResponse> users = await context.Users
+            .AsNoTracking()
             .Select(user => new GetAllUsersQueryResponse
             {
                 Id = user.Id,
@@ -33,7 +35,7 @@ internal sealed class GetAllUsersQueryHandler(
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt
             })
-            .ToList();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         return users;
     }
