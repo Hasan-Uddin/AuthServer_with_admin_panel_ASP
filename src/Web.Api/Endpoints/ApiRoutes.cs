@@ -8,6 +8,7 @@ public static class ApiRoutes
         public const string Login = "api/users/login";
         public const string Update = "api/users/update/{id:guid}";
         public const string GetByID = "api/users/get/{id:guid}";
+        public const string GetAll = "api/users/get-all/{id:guid}";
         public const string Delete = "api/users/delete/{id:guid}";
     }
 

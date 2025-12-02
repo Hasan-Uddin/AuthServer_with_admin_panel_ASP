@@ -1,0 +1,27 @@
+﻿using Application.Abstractions.Messaging;
+using Application.Users.GetAll;
+using SharedKernel;
+using Web.Api.Extensions;
+using Web.Api.Infrastructure;
+
+namespace Web.Api.Endpoints.Users;
+
+internal sealed class GetAll : IEndpoint
+{
+    public void MapEndpoint(IEndpointRouteBuilder app)
+    {
+        app.MapGet(ApiRoutes.Users.GetAll, async (
+            Guid id,
+            IQueryHandler<GetAllUsersQuery, List<GetAllUsersQueryResponse>> handler,
+            CancellationToken cancellationToken) =>
+        {
+            var query = new GetAllUsersQuery(id);
+
+            Result<List<GetAllUsersQueryResponse>> result = await handler.Handle(query, cancellationToken);
+
+            return result.Match(Results.Ok, CustomResults.Problem);
+        })
+        .WithTags(Tags.Users)
+        .RequireAuthorization();
+    }
+}
