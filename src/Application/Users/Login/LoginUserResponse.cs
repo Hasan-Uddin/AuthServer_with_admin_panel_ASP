@@ -1,6 +1,4 @@
 
-using Domain.Users;
-
 namespace Application.Users.Login;
 
 public sealed record LoginUserResponse(
