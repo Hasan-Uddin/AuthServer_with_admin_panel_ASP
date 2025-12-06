@@ -13,7 +13,7 @@ internal sealed class SmtpConfigConfiguration : IEntityTypeConfiguration<SmtpCon
     public void Configure(EntityTypeBuilder<SmtpConfig> builder)
     {
         builder.HasKey(t => t.SmtpId);
-        builder.Property(t => t.Username).IsRequired().HasMaxLength(16);
+        builder.Property(t => t.Username).IsRequired().HasMaxLength(256);
         builder.Property(t => t.SenderEmail).IsRequired().HasMaxLength(256);
         builder.Property(t=>t.Password).IsRequired().HasMaxLength(16);
     }

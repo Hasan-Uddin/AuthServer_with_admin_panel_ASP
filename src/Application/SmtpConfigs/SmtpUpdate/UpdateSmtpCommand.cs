@@ -6,4 +6,4 @@ public sealed record UpdateSmtpCommand(
     Guid SmtpId,
     string Username,
     string Password,
-    string SenderEmail) : ICommand;
+    string SenderEmail) : ICommand<Guid>;

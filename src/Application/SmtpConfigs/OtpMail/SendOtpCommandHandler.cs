@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Application.Otps.Create;
+using Domain.Otps;
 using Domain.SmtpConfigs;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -32,8 +33,12 @@ internal sealed class SendOtpCommandHandler(
             return Result.Failure<Guid>("OTP generation failed.");
         }
 
-        Guid otp = otpResult.Value;
-
+        Guid otpId = otpResult.Value;
+        Otp? otp = await context.Otp.FirstOrDefaultAsync(t => t.OtpId == otpId, cancellationToken);
+        if(otp is null)
+        {
+            return Result.Failure<Guid>("otp is not found");
+        }
         using var message = new MimeMessage();
         message.From.Add(new MailboxAddress(smtpConfig.SenderEmail, smtpConfig.SenderEmail));
         message.To.Add(new MailboxAddress(command.RecipientEmail, command.RecipientEmail));
@@ -41,7 +46,7 @@ internal sealed class SendOtpCommandHandler(
 
         var bodyBuilder = new BodyBuilder
         {
-            HtmlBody = $"Your OTP is: {otp}"
+            HtmlBody = $"Your OTP is: {otp.OtpToken}"
         };
         message.Body = bodyBuilder.ToMessageBody();
 
@@ -68,7 +73,7 @@ internal sealed class SendOtpCommandHandler(
 
             await client.DisconnectAsync(true, cancellationToken);
 
-            return Result.Success(otp);
+            return Result.Success(otpId);
         }
         catch (Exception ex)
         {

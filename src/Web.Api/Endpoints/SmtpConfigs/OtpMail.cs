@@ -10,23 +10,23 @@ internal sealed class OtpMail : IEndpoint
 {
     public sealed class Request
     {
-        public string RecipientMail { get; set; }
+        public string RecipientEmail { get; set; }
     }
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("Tokens", async (
+        app.MapPost("SmtpConfig", async (
     Request request,
-    ICommandHandler<SendOtpCommand,Guid> handler,
+    ICommandHandler<SendOtpCommand, Guid> handler,
     CancellationToken cancellationToken) =>
         {
-            var command = new SendOtpCommand(request.RecipientMail);
+            var command = new SendOtpCommand(request.RecipientEmail);
 
             Result<Guid> result = await handler.Handle(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .WithTags(Tags.Token)
+        .WithTags(Tags.SmtpConfig)
         .RequireAuthorization();
     }
 }
