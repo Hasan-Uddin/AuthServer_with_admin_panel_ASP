@@ -2,7 +2,7 @@
 
 namespace Application.Otps.GetById;
 
-public class OtpResponse : AbstractValidator<GetOtpByIdQuery>
+public class OtpResponse
 {
     public Guid OtpId { get; set; }
     public string OtpToken { get; set; }

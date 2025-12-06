@@ -2,7 +2,7 @@ namespace Web.Api.Endpoints;
 
 public static class ApiRoutes
 {
-    public static class SmtpConfig
+    public static class User
     {
         public const string Register = "api/users/register";
         public const string Login = "api/users/login";

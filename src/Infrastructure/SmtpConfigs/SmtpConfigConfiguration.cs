@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Domain.Otps;
-using Domain.SmtpConfigs;
+﻿using Domain.SmtpConfigs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +11,6 @@ internal sealed class SmtpConfigConfiguration : IEntityTypeConfiguration<SmtpCon
         builder.HasKey(t => t.SmtpId);
         builder.Property(t => t.Username).IsRequired().HasMaxLength(256);
         builder.Property(t => t.SenderEmail).IsRequired().HasMaxLength(256);
-        builder.Property(t=>t.Password).IsRequired().HasMaxLength(16);
+        builder.Property(t => t.Password).IsRequired().HasMaxLength(16);
     }
 }

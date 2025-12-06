@@ -35,9 +35,9 @@ internal sealed class SendOtpCommandHandler(
 
         Guid otpId = otpResult.Value;
         Otp? otp = await context.Otp.FirstOrDefaultAsync(t => t.OtpId == otpId, cancellationToken);
-        if(otp is null)
+        if (otp is null)
         {
-            return Result.Failure<Guid>("otp is not found");
+            return Result.Failure<Guid>("OTP not found");
         }
         using var message = new MimeMessage();
         message.From.Add(new MailboxAddress(smtpConfig.SenderEmail, smtpConfig.SenderEmail));

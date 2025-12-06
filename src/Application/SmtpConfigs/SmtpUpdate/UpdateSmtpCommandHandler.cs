@@ -6,7 +6,7 @@ using SharedKernel;
 namespace Application.SmtpConfigs.SmtpUpdate;
 
 internal sealed class UpdateSmtpCommandHandler(
-    IApplicationDbContext applicationDbContext) : ICommandHandler<UpdateSmtpCommand,Guid>
+    IApplicationDbContext applicationDbContext) : ICommandHandler<UpdateSmtpCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(UpdateSmtpCommand command, CancellationToken cancellationToken)
     {
