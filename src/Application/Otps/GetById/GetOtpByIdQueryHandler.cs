@@ -23,6 +23,10 @@ internal sealed class GetOtpByIdQueryHandler(
                 CreatedAt = o.CreatedAt
             })
             .SingleOrDefaultAsync(cancellationToken);
-        return otps;
+        if (otps is null)
+        {
+            return Result.Failure<OtpResponse>("OTP not found.");
+        }
+        return Result.Success(otps);
     }
 }
