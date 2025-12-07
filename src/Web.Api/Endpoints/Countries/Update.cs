@@ -10,9 +10,9 @@ public class Update : IEndpoint
 {
     public sealed class Request
     {
-        public string Name { get; set; }
-        public string Capital { get; set; }
-        public string PhoneCode { get; set; }
+        public string Name { get; set; } = null!;
+        public string Capital { get; set; } = null!;
+        public string PhoneCode { get; set; } = null!;
         public bool IsActive { get; set; }
     }
 

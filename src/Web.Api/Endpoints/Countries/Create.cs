@@ -10,9 +10,9 @@ public class Create : IEndpoint
 {
     public sealed class Request
     {
-        public string Name { get; set; }
-        public string Capital { get; set; }
-        public string PhoneCode { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Capital { get; set; } = string.Empty;
+        public string PhoneCode { get; set; } = string.Empty;
         public bool IsActive { get; set; }
     }
 

@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
-using Application.Businesses.Get;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
