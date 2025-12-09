@@ -1,4 +1,3 @@
-﻿using Domain;
 using Domain.Applications;
 using Domain.Areas;
 using Domain.AuditLogs;
@@ -50,8 +49,8 @@ public interface IApplicationDbContext
     DbSet<Otp> Otp { get; }
     DbSet<SmtpConfig> SmtpConfig { get; }
     DbSet<Country> Countries { get; }
-    //my task
-   
+    DbSet<Region> Regions { get; }
+    DbSet<District> Districts { get; }
     DbSet<Area> Areas { get; }
     DbSet<Locality> Localities { get; }
     EntityEntry Entry(object entity);

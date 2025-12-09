@@ -34,4 +34,3 @@ public sealed class CreateLocalityCommandHandler
         return Result.Success(locality.Id);
     }
 }
-

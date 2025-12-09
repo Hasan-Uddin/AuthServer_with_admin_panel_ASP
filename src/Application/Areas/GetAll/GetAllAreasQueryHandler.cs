@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Application.Areas.Get;
-using Application.Areas.GetAl;
+using Application.Areas.GetAll;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 

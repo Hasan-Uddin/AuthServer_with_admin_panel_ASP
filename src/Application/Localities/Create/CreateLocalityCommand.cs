@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Abstractions.Messaging;
+﻿using Application.Abstractions.Messaging;
 using Domain.Localities;
 
 namespace Application.Localities.Create;

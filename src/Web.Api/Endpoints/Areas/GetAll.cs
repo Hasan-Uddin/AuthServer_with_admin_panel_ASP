@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Areas.Get;
-using Application.Areas.GetAl;
+using Application.Areas.GetAll;
 using SharedKernel;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;

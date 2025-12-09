@@ -13,7 +13,7 @@ internal sealed class Create : IEndpoint
         Guid CountryId,
         Guid AreaId,
         string Name,
-        int Type, // 1=Union, 2=Ward, 3=Neighborhood, etc.
+        int Type, 
         bool IsActive
     );
 

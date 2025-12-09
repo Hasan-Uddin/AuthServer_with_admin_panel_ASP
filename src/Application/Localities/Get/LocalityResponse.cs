@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Localities.Get;
+﻿namespace Application.Localities.Get;
 
 public sealed record LocalityResponse(
     Guid Id,

@@ -12,7 +12,7 @@ internal sealed class Create : IEndpoint
         Guid CountryId,
         Guid DistrictId,
         string Name,
-        int Type, // 1=Upazila, 2=City, 3=Thana, 4=Municipality, 5=Township
+        int Type, 
         bool IsActive
     );
 

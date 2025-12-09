@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Areas.Get;
+﻿namespace Application.Areas.Get;
 
 public sealed record AreaResponse(
     Guid Id,

@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Messaging;
-using Domain;
 using Domain.Areas;
 
 namespace Application.Areas.Create;
