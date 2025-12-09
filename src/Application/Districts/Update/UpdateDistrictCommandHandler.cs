@@ -27,6 +27,7 @@ internal sealed class UpdateDistrictCommandHandler(
 
         // Update fields
         district.RegionId = command.RegionId;
+        district.CountryId = command.CountryId;
         district.Name = command.Name;
         district.IsActive = command.IsActive;
         district.UpdatedAt = DateTime.UtcNow;

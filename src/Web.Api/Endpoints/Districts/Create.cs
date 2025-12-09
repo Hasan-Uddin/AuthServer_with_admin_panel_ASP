@@ -37,6 +37,8 @@ internal sealed class Create : IEndpoint
             return result.Match(Results.Ok, CustomResults.Problem);
         })
         .WithTags(Tags.Districts)
-        .RequireAuthorization();
+        .RequireAuthorization()
+        .WithSummary("Create a new District")
+        .WithDescription("Creates a new district with given name, region, and active status.");
     }
 }

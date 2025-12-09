@@ -38,6 +38,8 @@ internal sealed class Create : IEndpoint
             return result.Match(Results.Ok, CustomResults.Problem);
         })
         .WithTags(Tags.Regions)
+        .WithSummary("Creates a new region")
+        .WithDescription("This endpoint creates a new region with the provided details. Requires authentication.")
         .RequireAuthorization();
     }
 }
