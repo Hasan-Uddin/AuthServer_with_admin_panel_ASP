@@ -270,6 +270,55 @@ namespace Infrastructure.Migrations
                     b.ToTable("customers", "public");
                 });
 
+            modelBuilder.Entity("Domain.Districts.District", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("RegionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("region_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_districts");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_districts_country_id");
+
+                    b.HasIndex("RegionId")
+                        .HasDatabaseName("ix_districts_region_id");
+
+                    b.ToTable("districts", "public");
+                });
+
             modelBuilder.Entity("Domain.EmailVerification.EmailVerifications", b =>
                 {
                     b.Property<Guid>("EvId")
@@ -485,6 +534,54 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("ix_permissions_code");
 
                     b.ToTable("permissions", "public");
+                });
+
+            modelBuilder.Entity("Domain.Regions.Region", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("RegionType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("region_type");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_regions");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_regions_country_id");
+
+                    b.ToTable("regions", "public");
                 });
 
             modelBuilder.Entity("Domain.RolePermissions.RolePermission", b =>
@@ -891,6 +988,27 @@ namespace Infrastructure.Migrations
                         .HasConstraintName("fk_businesses_users_owner_user_id");
                 });
 
+            modelBuilder.Entity("Domain.Districts.District", b =>
+                {
+                    b.HasOne("Domain.Countries.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_districts_countries_country_id");
+
+                    b.HasOne("Domain.Regions.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_districts_regions_region_id");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Region");
+                });
+
             modelBuilder.Entity("Domain.MfaSettings.MfaSetting", b =>
                 {
                     b.HasOne("Domain.Users.User", "User")
@@ -901,6 +1019,18 @@ namespace Infrastructure.Migrations
                         .HasConstraintName("fk_mfa_settings_users_user_id");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Regions.Region", b =>
+                {
+                    b.HasOne("Domain.Countries.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_regions_countries_country_id");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Domain.RolePermissions.RolePermission", b =>
