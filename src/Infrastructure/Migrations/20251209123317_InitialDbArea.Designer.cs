@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251209123317_InitialDbArea")]
+    partial class InitialDbArea
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -585,10 +588,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("character varying(16)")
                         .HasColumnName("otp_token");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text")
-                        .HasColumnName("phone_number");
-
                     b.HasKey("OtpId")
                         .HasName("pk_otp");
 
@@ -750,25 +749,6 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("ix_roles_role_name");
 
                     b.ToTable("roles", "public");
-                });
-
-            modelBuilder.Entity("Domain.SmsConfigs.SmsConfig", b =>
-                {
-                    b.Property<Guid>("SmsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("sms_id");
-
-                    b.Property<string>("SmsToken")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("character varying(4)")
-                        .HasColumnName("sms_token");
-
-                    b.HasKey("SmsId")
-                        .HasName("pk_sms_config");
-
-                    b.ToTable("sms_config", "public");
                 });
 
             modelBuilder.Entity("Domain.SmtpConfigs.SmtpConfig", b =>
