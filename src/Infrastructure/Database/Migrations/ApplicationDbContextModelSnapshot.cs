@@ -75,6 +75,55 @@ namespace Infrastructure.Migrations
                     b.ToTable("applications", "public");
                 });
 
+            modelBuilder.Entity("Domain.Areas.Area", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<Guid>("DistrictId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("district_id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_areas");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_areas_country_id");
+
+                    b.HasIndex("DistrictId")
+                        .HasDatabaseName("ix_areas_district_id");
+
+                    b.HasIndex("Name")
+                        .HasDatabaseName("ix_areas_name");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_areas_type");
+
+                    b.ToTable("areas", "public");
+                });
+
             modelBuilder.Entity("Domain.AuditLogs.AuditLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -270,6 +319,55 @@ namespace Infrastructure.Migrations
                     b.ToTable("customers", "public");
                 });
 
+            modelBuilder.Entity("Domain.Districts.District", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("RegionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("region_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_districts");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_districts_country_id");
+
+                    b.HasIndex("RegionId")
+                        .HasDatabaseName("ix_districts_region_id");
+
+                    b.ToTable("districts", "public");
+                });
+
             modelBuilder.Entity("Domain.EmailVerification.EmailVerifications", b =>
                 {
                     b.Property<Guid>("EvId")
@@ -299,6 +397,71 @@ namespace Infrastructure.Migrations
                         .HasName("pk_email_verifications");
 
                     b.ToTable("email_verifications", "public");
+                });
+
+            modelBuilder.Entity("Domain.Localities.Locality", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AreaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("area_id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_localities");
+
+                    b.HasIndex("AreaId")
+                        .HasDatabaseName("ix_localities_area_id");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_localities_country_id");
+
+                    b.HasIndex("IsActive")
+                        .HasDatabaseName("ix_localities_is_active");
+
+                    b.HasIndex("Name")
+                        .HasDatabaseName("ix_localities_name");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_localities_type");
+
+                    b.HasIndex("AreaId", "IsActive")
+                        .HasDatabaseName("ix_localities_area_id_is_active");
+
+                    b.HasIndex("AreaId", "Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_localities_area_id_name");
+
+                    b.HasIndex("AreaId", "Type", "IsActive")
+                        .HasDatabaseName("ix_localities_area_id_type_is_active");
+
+                    b.HasIndex("CountryId", "AreaId", "IsActive")
+                        .HasDatabaseName("ix_localities_country_id_area_id_is_active");
+
+                    b.ToTable("localities", "public");
                 });
 
             modelBuilder.Entity("Domain.MfaLogs.MfaLog", b =>
@@ -485,6 +648,54 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("ix_permissions_code");
 
                     b.ToTable("permissions", "public");
+                });
+
+            modelBuilder.Entity("Domain.Regions.Region", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("country_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("RegionType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("region_type");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_regions");
+
+                    b.HasIndex("CountryId")
+                        .HasDatabaseName("ix_regions_country_id");
+
+                    b.ToTable("regions", "public");
                 });
 
             modelBuilder.Entity("Domain.RolePermissions.RolePermission", b =>
@@ -845,6 +1056,16 @@ namespace Infrastructure.Migrations
                     b.ToTable("users", "public");
                 });
 
+            modelBuilder.Entity("Domain.Areas.Area", b =>
+                {
+                    b.HasOne("Domain.Districts.District", null)
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_areas_districts_district_id");
+                });
+
             modelBuilder.Entity("Domain.AuditLogs.AuditLog", b =>
                 {
                     b.HasOne("Domain.Users.User", "User")
@@ -891,6 +1112,37 @@ namespace Infrastructure.Migrations
                         .HasConstraintName("fk_businesses_users_owner_user_id");
                 });
 
+            modelBuilder.Entity("Domain.Districts.District", b =>
+                {
+                    b.HasOne("Domain.Countries.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_districts_countries_country_id");
+
+                    b.HasOne("Domain.Regions.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_districts_regions_region_id");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("Domain.Localities.Locality", b =>
+                {
+                    b.HasOne("Domain.Areas.Area", null)
+                        .WithMany()
+                        .HasForeignKey("AreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_localities_areas_area_id");
+                });
+
             modelBuilder.Entity("Domain.MfaSettings.MfaSetting", b =>
                 {
                     b.HasOne("Domain.Users.User", "User")
@@ -901,6 +1153,18 @@ namespace Infrastructure.Migrations
                         .HasConstraintName("fk_mfa_settings_users_user_id");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Regions.Region", b =>
+                {
+                    b.HasOne("Domain.Countries.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_regions_countries_country_id");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Domain.RolePermissions.RolePermission", b =>
