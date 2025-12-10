@@ -49,6 +49,7 @@ public interface IApplicationDbContext
     DbSet<MfaSetting> MfaSettings { get; }
     DbSet<Otp> Otp { get; }
     DbSet<SmtpConfig> SmtpConfig { get; }
+    DbSet<SmsConfig> SmsConfig { get; }
     DbSet<Country> Countries { get; }
     DbSet<Region> Regions { get; }
     DbSet<District> Districts { get; }

@@ -41,7 +41,7 @@ internal sealed class VerifyOtp : IEndpoint
                 return CustomResults.Problem("Input must be a valid email address or phone number.", 400);
             }
         })
-        .WithTags(Tags.Verified)
+        .WithTags(Tags.VerifyOtp)
         .RequireAuthorization();
     }
 }
