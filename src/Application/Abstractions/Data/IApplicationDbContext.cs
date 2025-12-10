@@ -1,4 +1,5 @@
-﻿using Domain.Applications;
+using Domain.Applications;
+using Domain.Areas;
 using Domain.AuditLogs;
 using Domain.Businesses;
 using Domain.BusinessMembers;
@@ -6,6 +7,7 @@ using Domain.Countries;
 using Domain.Customers;
 using Domain.Districts;
 using Domain.EmailVerification;
+using Domain.Localities;
 using Domain.MfaLogs;
 using Domain.MfaSettings;
 using Domain.Otps;
@@ -50,8 +52,9 @@ public interface IApplicationDbContext
     DbSet<Country> Countries { get; }
     DbSet<Region> Regions { get; }
     DbSet<District> Districts { get; }
+    DbSet<Area> Areas { get; }
+    DbSet<Locality> Localities { get; }
     DbSet<SmsConfig> SmsConfig { get; }
-
     EntityEntry Entry(object entity);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

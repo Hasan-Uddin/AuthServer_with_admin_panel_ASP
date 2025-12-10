@@ -23,6 +23,8 @@ public static class Tags
     public const string Countries = "Countries";
     public const string Regions = "Regions";
     public const string Districts = "Districts";
+    public const string Areas = "Areas";
+    public const string Localities = "Localities";
     public const string CommonOtp = "CommonOtp";
     public const string Verified = "Otp is Verified";
 }
