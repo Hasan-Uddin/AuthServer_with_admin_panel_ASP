@@ -4,6 +4,6 @@ namespace Domain.SmsConfigs;
 
 public sealed class SmsConfig : Entity
 {
-    public Guid SmsId { get; set; }
+    public Guid Id { get; set; }
     public string SmsToken { get; set; }
 }
