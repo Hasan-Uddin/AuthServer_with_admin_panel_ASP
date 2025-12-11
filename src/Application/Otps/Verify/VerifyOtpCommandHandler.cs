@@ -27,7 +27,6 @@ internal sealed class VerifyOtpCommandHandler(
                 cancellationToken);
         }
 
-
         if (otp is null)
         {
             return Result.Failure<bool>("OTP not found.");
