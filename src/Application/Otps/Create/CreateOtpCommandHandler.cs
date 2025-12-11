@@ -19,21 +19,20 @@ internal sealed class CreateOtpCommandHandler(
         {
             return Result.Failure<Guid>("Either Email or PhoneNumber must be provided.");
         }
-        Otp otp = !string.IsNullOrWhiteSpace(command.Email)
-        ? new Otp
+        var otp = new Otp
         {
             OtpToken = GenerateOtp(),
-            Email = command.Email,
-            CreatedAt = dateTimeProvider.UtcNow,
-            IsExpired = false
-        }
-        : new Otp
-        {
-            OtpToken = GenerateOtp(),
-            PhoneNumber = command.PhoneNumber,
             CreatedAt = dateTimeProvider.UtcNow,
             IsExpired = false
         };
+        if (!string.IsNullOrWhiteSpace(command.Email))
+        {
+            otp.Email = command.Email;
+        }
+        else
+        {
+            otp.PhoneNumber = command.PhoneNumber;
+        }
 
         otp.Raise(new OtpCreatedDomainEvent(otp.OtpId));
 
