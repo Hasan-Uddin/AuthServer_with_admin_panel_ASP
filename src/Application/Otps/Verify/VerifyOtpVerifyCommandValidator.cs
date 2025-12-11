@@ -17,5 +17,11 @@ internal sealed class VerifyOtpVerifyCommandValidator : AbstractValidator<Verify
         RuleFor(x => x.OtpToken)
             .NotEmpty().WithMessage("OTP token is required.")
             .Length(4).WithMessage("OTP token must be 4 characters long.");
+        RuleFor(x => x)
+            .Must(x =>
+                !string.IsNullOrWhiteSpace(x.Email) ||
+                !string.IsNullOrWhiteSpace(x.PhoneNumber)
+            )
+            .WithMessage("Either Email or PhoneNumber must be provided.");
     }
 }
