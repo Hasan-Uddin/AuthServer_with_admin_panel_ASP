@@ -24,7 +24,7 @@ internal class SmsOtpCommandHandler(
 
         if (smsConfig is null)
         {
-            return Result.Failure<Guid>("Sms configuration not found.");
+            return Result.Failure<Guid>(SmsConfigErrors.NotFound(Guid.Empty));
         }
 
         var createOtp = new CreateOtpCommand(null, command.PhoneNumber);
