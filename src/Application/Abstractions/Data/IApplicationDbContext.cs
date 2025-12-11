@@ -55,6 +55,7 @@ public interface IApplicationDbContext
     DbSet<District> Districts { get; }
     DbSet<Area> Areas { get; }
     DbSet<Locality> Localities { get; }
+    DbSet<SmsConfig> SmsConfig { get; }
     EntityEntry Entry(object entity);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
