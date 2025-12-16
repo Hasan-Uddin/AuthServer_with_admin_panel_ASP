@@ -10,7 +10,7 @@ internal sealed class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("SmsConfig", async (
+        app.MapGet("SmsConfigs", async (
             IQueryHandler<GetSmsConfigsQuery, List<SmsConfigResponse>> handler,
             CancellationToken cancellationToken) =>
         {
