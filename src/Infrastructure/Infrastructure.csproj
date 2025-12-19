@@ -15,6 +15,10 @@
 		<PackageReference Include="MailKit" />
 		<PackageReference Include="Newtonsoft.Json" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+		<PackageReference Include="OpenIddict" />
+		<PackageReference Include="OpenIddict.AspNetCore" />
+		<PackageReference Include="OpenIddict.EntityFrameworkCore" />
+		<PackageReference Include="OpenIddict.Server.AspNetCore" />
 	</ItemGroup>
 
 	<ItemGroup>
