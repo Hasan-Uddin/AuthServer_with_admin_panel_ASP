@@ -12,4 +12,7 @@ dotnet ef database update <PreviousMigrationName> --project src/Infrastructure/I
 dotnet ef migrations add <MigrationName> --project src/Infrastructure/Infrastructure.csproj --startup-project src/Web.Api/Web.Api.csproj
 
 //remove recent ADD migration
-dotnet ef migrations remove --project src/Infrastructure/Infrastructure.csproj --startup-project src/Web.Api/Web.Api.csproj
+dotnet ef migrations remove --project src/Infrastructure/Infrastructure.csproj --startup-project src/Web.Api/Web.Api.csproj --context ApplicationDbContext
+
+// Create Initial OpenIddict Migration Command:
+dotnet ef migrations add InitOpenIddict --project src/Infrastructure/Infrastructure.csproj --startup-project src/Web.Api/Web.Api.csproj --context OpenIddictDbContext
