@@ -12,6 +12,11 @@ public static class MigrationExtensions
         using ApplicationDbContext dbContext =
             scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+        using OpenIddictDbContext dbContext2 =
+            scope.ServiceProvider.GetRequiredService<OpenIddictDbContext>();
+
         dbContext.Database.Migrate();
+
+        dbContext2.Database.Migrate();
     }
 }
