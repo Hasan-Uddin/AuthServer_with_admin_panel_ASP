@@ -33,12 +33,22 @@ builder.Services.AddCors(options => options.AddPolicy("Allowed_Origins", builder
             .WithHeaders("Content-Type", "Authorization")
             .AllowCredentials()));
 
-builder.Services.AddCors(options => options.AddPolicy("AllowAnyOrigin", builder => builder
-            .SetIsOriginAllowed((host) => true)  // Allow all origins dynamically
-            .AllowCredentials()                   // Allow credentials
-            .AllowAnyMethod()                     // Allow any method
-            .AllowAnyHeader()));
+builder.Services.AddCors(options => options.AddPolicy("LocalhostPolicy", policy => policy
+            .SetIsOriginAllowed(origin =>
+            {
+                if (string.IsNullOrWhiteSpace(origin))
+                {
+                    return false;
+                }
 
+                var uri = new Uri(origin);
+
+                return uri.Host == "localhost"
+                    || uri.Host == "127.0.0.1";
+            })
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()));
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
@@ -135,8 +145,15 @@ app.UseExceptionHandler();
 
 app.UseRouting();
 
-//app.UseCors("Allowed_Origins");
-app.UseCors("AllowAnyOrigin");
+//app.UseCors("AllowAnyOrigin");
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("LocalhostPolicy");
+}
+else
+{
+    app.UseCors("Allowed_Origins");
+}
 
 app.UseAuthentication();
 
