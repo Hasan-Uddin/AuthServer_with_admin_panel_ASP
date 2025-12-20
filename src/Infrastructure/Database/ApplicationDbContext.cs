@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Data;
-using Domain.Projects;
 using Domain.Areas;
 using Domain.AuditLogs;
 using Domain.Businesses;
@@ -20,7 +19,6 @@ using Domain.Roles;
 using Domain.SmsConfigs;
 using Domain.SmtpConfigs;
 using Domain.Todos;
-using Domain.Token;
 using Domain.UserLoginHistories;
 using Domain.UserProfiles;
 using Domain.Users;
@@ -37,31 +35,16 @@ public sealed class ApplicationDbContext(
     : DbContext(options), IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
-
     public DbSet<EmailVerifications> EmailVerifications { get; set; }
-
     public DbSet<PasswordReset> PasswordReset { get; set; }
-
-    public DbSet<Tokens> Tokens { get; set; }
-
     public DbSet<Customer> Customers { get; set; }
-
     public DbSet<TodoItem> TodoItems { get; set; }
-
     public DbSet<UserLoginHistory> UserLoginHistory { get; set; }
-
     public DbSet<UserProfile> UserProfile { get; set; }
-
     public DbSet<Permission> Permissions { get; set; }
-
-    public DbSet<Project> Projects { get; set; }
-
     public DbSet<RolePermission> RolePermissions { get; set; }
-
-    public DbSet<Role> Roles { get; set; }
-
+    public DbSet<Role> Roles { get; set; } 
     public DbSet<Business> Businesses { get; set; }
-
     public DbSet<BusinessMember> BusinessMembers { get; set; }
     public DbSet<AuditLog> AuditLogs { get; set; }
     public DbSet<MfaLog> MfaLogs { get; set; }
