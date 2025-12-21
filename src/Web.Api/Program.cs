@@ -29,7 +29,7 @@ builder.Services
 
 builder.Services.AddCors(options => options.AddPolicy("Allowed_Origins", builder => builder
             .WithOrigins(allowedOrigins)
-            .WithMethods("GET", "POST", "PUT", "DELETE")
+            .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH")
             .WithHeaders("Content-Type", "Authorization")
             .AllowCredentials()));
 
@@ -57,7 +57,7 @@ builder.Services.AddOpenIddict()
     {
         ArgumentNullException.ThrowIfNull(options);
         options.UseEntityFrameworkCore()
-               .UseDbContext<OpenIddictDbContext>();
+               .UseDbContext<ApplicationDbContext>();
     })
     .AddServer(options =>
     {
@@ -137,6 +137,8 @@ app.MapHealthChecks("health", new HealthCheckOptions
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
+app.UseHttpsRedirection();
+
 app.UseRequestContextLogging();
 
 app.UseSerilogRequestLogging();
@@ -145,15 +147,16 @@ app.UseExceptionHandler();
 
 app.UseRouting();
 
-//app.UseCors("AllowAnyOrigin");
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("LocalhostPolicy");
-}
-else
-{
-    app.UseCors("Allowed_Origins");
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseCors("LocalhostPolicy");
+//}
+//else
+//{
+//    app.UseCors("Allowed_Origins");
+//}
+
+app.UseCors("Allowed_Origins");
 
 app.UseAuthentication();
 
