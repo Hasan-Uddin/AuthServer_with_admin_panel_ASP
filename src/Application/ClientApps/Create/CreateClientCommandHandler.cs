@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Application.Abstractions.Messaging;
+﻿using Application.Abstractions.Messaging;
 using Application.Abstractions.Openiddict;
 using SharedKernel;
 using SharedKernel.Models;
@@ -20,12 +17,16 @@ public sealed record CreateClientCommandHandler(
             return Result.Failure($"Client with ClientId '{command.ClientId}' already exists.");
         }
 
+        Uri[] redirectUris = command.RedirectUri
+            .Select(uri => new Uri(uri, "/signin-oidc"))
+            .ToArray();
+
         await clientManager.CreateAsync(new ClientDescriptor
         {
             ClientId = command.ClientId,
             DisplayName = command.DisplayName,
             ClientSecret = command.ClientSecret,
-            RedirectUri = command.RedirectUri
+            RedirectUri = redirectUris
         }, cancellationToken);
 
         return Result.Success();
