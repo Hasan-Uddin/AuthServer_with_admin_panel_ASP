@@ -73,8 +73,8 @@ internal class OpenIddictClientManager : IOpeniddictClientManager
 
             var redirectUris =
                 (await manager.GetRedirectUrisAsync(app, ct))
-                .Select(u => u.ToString())
-                .ToList();
+                    .Select(u => RemoveSigninOidc(u.ToString()))
+                    .ToList();
 
             ImmutableArray<string> permissions = await manager.GetPermissionsAsync(app, ct);
 
@@ -99,6 +99,25 @@ internal class OpenIddictClientManager : IOpeniddictClientManager
         }
 
         return result;
+    }
+
+    private static string RemoveSigninOidc(string uri)
+    {
+        var builder = new UriBuilder(uri);
+
+        string path = builder.Path.TrimEnd('/');
+
+        if (path.EndsWith("/signin-oidc", StringComparison.OrdinalIgnoreCase))
+        {
+            builder.Path = path[..^"/signin-oidc".Length];
+
+            if (string.IsNullOrEmpty(builder.Path))
+            {
+                builder.Path = "/";
+            }
+        }
+
+        return builder.Uri.ToString();
     }
 
 }
