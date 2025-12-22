@@ -9,7 +9,7 @@ public class Delete : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete(ApiRoutes.Delete(Base.ClientApps), async (
+        app.MapDelete(Base.ClientApps + "/{clientId}", async (
             string clientId,
             ICommandHandler<DeleteClientCommand> handler,
             CancellationToken cancellationToken) =>
