@@ -27,4 +27,6 @@ public static class Tags
     public const string Localities = "Localities";
     public const string CommonOtp = "OtpRequest";
     public const string VerifyOtp = "VerifyOtp";
+    public const string ClientApps = "ClientApps";
+
 }
