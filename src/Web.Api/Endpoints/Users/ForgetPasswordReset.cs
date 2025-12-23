@@ -5,6 +5,7 @@ using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
 namespace Web.Api.Endpoints.Users;
+
 internal sealed class ForgotPasswordReset : IEndpoint
 {
     public sealed record Request(
@@ -14,7 +15,7 @@ internal sealed class ForgotPasswordReset : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("users/forgot-password-reset", async (
+        app.MapPost(ApiRoutes.Create(Base.ForgotPassReset), async (
             Request request,
             ICommandHandler<ForgotPasswordResetCommand, ForgotPasswordResetResponse> handler,
             CancellationToken cancellationToken) =>
@@ -28,6 +29,6 @@ internal sealed class ForgotPasswordReset : IEndpoint
             return result.Match(Results.Ok, CustomResults.Problem);
         })
         .WithTags(Tags.Users);
-        
+
     }
 }
