@@ -33,7 +33,7 @@ internal class OpenIddictClientManager : IOpeniddictClientManager
             ClientSecret = descriptor.ClientSecret
         };
 
-        foreach (Uri uri in descriptor.RedirectUri)
+        foreach (Uri uri in descriptor.RedirectUris)
         {
             app.RedirectUris.Add(uri);
         }

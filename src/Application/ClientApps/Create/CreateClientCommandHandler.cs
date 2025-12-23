@@ -17,7 +17,7 @@ public sealed record CreateClientCommandHandler(
             return Result.Failure($"Client with ClientId '{command.ClientId}' already exists.");
         }
 
-        Uri[] redirectUris = command.RedirectUri
+        Uri[] redirectUris = command.RedirectUris
             .Select(uri => new Uri(uri, "/signin-oidc"))
             .ToArray();
 
@@ -26,7 +26,7 @@ public sealed record CreateClientCommandHandler(
             ClientId = command.ClientId,
             DisplayName = command.DisplayName,
             ClientSecret = command.ClientSecret,
-            RedirectUri = redirectUris
+            RedirectUris = redirectUris
         }, cancellationToken);
 
         return Result.Success();

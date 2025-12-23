@@ -13,12 +13,12 @@ internal class CreateClientCommandValidator : AbstractValidator<CreateClientComm
         RuleFor(c => c.DisplayName)
             .NotEmpty()
             .WithMessage("DisplayName not be empty");
-        
+
         RuleFor(c => c.ClientSecret)
             .NotEmpty()
             .WithMessage("ClientSecret must not be empty");
 
-        RuleFor(c => c.RedirectUri)
+        RuleFor(c => c.RedirectUris)
             .NotEmpty()
             .WithMessage("RedirectUrl ID must not be empty")
             .Must(uriArray => uriArray.All(uri => BeAValidUri(uri)))

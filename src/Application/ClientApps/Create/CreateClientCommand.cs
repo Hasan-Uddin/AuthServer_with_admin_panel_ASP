@@ -6,5 +6,5 @@ public sealed record CreateClientCommand(
     string ClientId,
     string DisplayName,
     string ClientSecret,
-    Uri[] RedirectUri
+    Uri[] RedirectUris
 ) : ICommand;

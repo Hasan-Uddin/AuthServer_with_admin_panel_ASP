@@ -9,5 +9,5 @@ public sealed class ClientDescriptor
 
     public required string ClientSecret { get; init; }
 
-    public required IReadOnlyList<Uri> RedirectUri { get; init; }
+    public required IReadOnlyList<Uri> RedirectUris { get; init; }
 }

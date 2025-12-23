@@ -13,7 +13,7 @@ public sealed class Create : IEndpoint
         string ClientId,
         string DisplayName,
         string ClientSecret,
-        Uri[] RedirectUri
+        Uri[] RedirectUris
     );
 
     public void MapEndpoint(IEndpointRouteBuilder app)
@@ -27,12 +27,12 @@ public sealed class Create : IEndpoint
                 request.ClientId,
                 request.DisplayName,
                 request.ClientSecret,
-                request.RedirectUri
+                request.RedirectUris
             );
             Result result = await handler.Handle(command, cancellationToken);
             return result.IsSuccess
                 ? Results.Created($"{request.ClientId}", null)
-                : Results.BadRequest(result.Error); 
+                : Results.BadRequest(result.Error);
         })
         .WithTags(Tags.ClientApps)
         .RequireAuthorization();
