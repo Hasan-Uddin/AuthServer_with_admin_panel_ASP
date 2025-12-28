@@ -19,7 +19,7 @@ internal sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("SmtpConfig/Create", async (
+        app.MapPost("api/smtp-config/Create", async (
             Request request,
             ICommandHandler<CreateSmtpConfigCommand, Guid> handler,
             CancellationToken cancellationToken) =>

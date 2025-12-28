@@ -1,6 +1,6 @@
-# AuthServer
+# AuthServer with Admin Panel
 
-A modern, production-ready authentication and authorization server built with .NET 9, implementing Clean Architecture principles, CQRS pattern, and Domain-Driven Design (DDD).
+A modern, production-ready authentication and authorization server built with .NET 10, implementing Clean Architecture principles, CQRS pattern, and Domain-Driven Design (DDD).
 
 ## 🏗️ Architecture
 
@@ -70,7 +70,7 @@ This project follows **Clean Architecture** with clear separation of concerns ac
 
 ## 📋 Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) (for containerized deployment)
 - [PostgreSQL 17](https://www.postgresql.org/download/) (if running without Docker)
 

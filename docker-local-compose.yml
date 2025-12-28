@@ -13,8 +13,8 @@ services:
       ConnectionStrings__Database: Host=postgres;Port=5432;Database=clean-architecture;Username=postgres;Password=1234
       ASPNETCORE_URLS: http://+:8080;http://+:8081
       FrontendLoginUrl: https://localhost:4200/login  # Login page of auth server
-      IssuerUrl: http://localhost:5001 # Auth server Backend Url
-      Jwt__Secret: YOUR_SECURE_GENERATED_SECRET
+      IssuerUrl: https://localhost:5001 # Auth server Backend Url
+      AuthServer_AlwaysHTTPS: false
       Cors__AllowedOrigins__0: "http://localhost:4200"
       Cors__AllowedOrigins__1: "https://localhost:4200"
       Cors__AllowedOrigins__2: "http://localhost:40033"
@@ -23,6 +23,9 @@ services:
       Cors__AllowedOrigins__5: "https://auth.dapplesoft.com"
       Cors__AllowedOrigins__6: "http://authapi.dapplesoft.com"
       Cors__AllowedOrigins__7: "https://authapi.dapplesoft.com"
+      KnownProxies__0: "127.0.0.1"
+      KnownProxies__1: "172.18.240.206"
+      KnownProxies__2: "172.19.0.1"
     restart: on-failure
     depends_on:
       postgres:
