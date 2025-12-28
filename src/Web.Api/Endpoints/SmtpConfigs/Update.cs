@@ -17,7 +17,7 @@ internal sealed class UpdateSmtp : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("SmtpConfigs/Update/{Id:Guid}", async (
+        app.MapPut("api/smtp-config/Update/{Id:Guid}", async (
             Guid Id,
             Request request,
             ICommandHandler<UpdateSmtpCommand, Guid> handler,

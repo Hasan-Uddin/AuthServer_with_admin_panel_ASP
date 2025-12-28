@@ -10,7 +10,7 @@ public sealed class Delete : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("SmtpConfig/Delete/{id:guid}", async (
+        app.MapDelete("api/smtp-config/Delete/{id:guid}", async (
             Guid id,
             ICommandHandler<DeleteSmtpConfigCommand> handler,
             CancellationToken cancellationToken) =>
