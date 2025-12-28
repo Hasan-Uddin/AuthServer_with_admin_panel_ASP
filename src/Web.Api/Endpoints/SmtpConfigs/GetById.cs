@@ -10,7 +10,7 @@ internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("SmtpConfigs/{id:guid}", async (
+        app.MapGet("api/smtp-config/{id:guid}", async (
             Guid id,
             IQueryHandler<GetSmtpConfigByIdQuery, SmtpConfigResponse> handler,
             CancellationToken cancellationToken) =>

@@ -10,7 +10,7 @@ internal sealed class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("SmtpConfig", async (
+        app.MapGet("api/smtp-config", async (
             IQueryHandler<GetSmtpConfigQuery, List<SmtpConfigResponse>> handler,
             CancellationToken cancellationToken) =>
         {
