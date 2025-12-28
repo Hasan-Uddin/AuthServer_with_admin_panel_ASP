@@ -144,6 +144,8 @@ app.UseCertificateForwarding();
 
 app.MapGet("/remote-ip", (HttpContext ctx) => ctx.Connection.RemoteIpAddress?.ToString());
 
+app.MapGet("/test-scheme", (HttpContext ctx) => ctx.Request.Scheme);
+
 app.UseRequestContextLogging();
 
 app.UseExceptionHandler();
