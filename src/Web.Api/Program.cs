@@ -103,7 +103,9 @@ builder.Services.AddAuthentication(options =>
 
 WebApplication app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+bool? AlwaysRunSwagger = builder.Configuration.GetValue<bool>("AlwaysRunSwagger");
+
+if (app.Environment.IsDevelopment() || AlwaysRunSwagger == true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -142,10 +144,6 @@ app.UseForwardedHeaders(forwardedHeadersOptions);
 
 app.UseCertificateForwarding();
 
-app.MapGet("/remote-ip", (HttpContext ctx) => ctx.Connection.RemoteIpAddress?.ToString());
-
-app.MapGet("/test-scheme", (HttpContext ctx) => ctx.Request.Scheme);
-
 app.UseRequestContextLogging();
 
 app.UseExceptionHandler();
@@ -161,6 +159,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapEndpoints();
+
+app.MapGet("/remote-ip", (HttpContext ctx) =>
+    ctx.Connection.RemoteIpAddress?.ToString()
+    + "\n\ntest-scheme: "
+    + ctx.Request.Scheme);
 
 await app.RunAsync();
 
