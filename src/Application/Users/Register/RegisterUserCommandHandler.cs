@@ -1,6 +1,8 @@
 ﻿using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Domain.Roles;
+using Domain.UserRoles;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
@@ -37,6 +39,21 @@ internal sealed class RegisterUserCommandHandler(
         user.Raise(new UserRegisteredDomainEvent(user.Id));
 
         context.Users.Add(user);
+
+        Role? normalUserRole = await context.Roles
+            .AsNoTracking()
+            .SingleOrDefaultAsync(r => r.RoleCode == RoleCode.NormalUser, cancellationToken);
+
+        if (normalUserRole is not null)
+        {
+            var userRole = new UserRole
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id,
+                RoleId = normalUserRole.Id
+            };
+            context.UserRoles.Add(userRole);
+        }
 
         await context.SaveChangesAsync(cancellationToken);
 
