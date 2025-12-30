@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Authentication;
+﻿using System.Globalization;
+using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Users;
@@ -16,9 +17,10 @@ internal sealed class LoginUserCommandHandler(
 {
     public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
     {
+        string? emailLower = command.Email.ToLower(CultureInfo.CurrentCulture);
         User? user = await context.Users
             .AsNoTracking()
-            .SingleOrDefaultAsync(u => u.Email == command.Email, cancellationToken);
+            .SingleOrDefaultAsync(u => u.Email == emailLower, cancellationToken);
 
         if (user is null)
         {
