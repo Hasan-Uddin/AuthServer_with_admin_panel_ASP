@@ -51,6 +51,15 @@ internal sealed class ConnectUserInfo : IEndpoint
                 claims[OpenIddictConstants.Claims.Name] = name;
             }
 
+            object[] roles = result.Principal.FindAll(OpenIddictConstants.Claims.Role)
+                .Select(c => c.Value)
+                .ToArray();
+
+            if (roles.Length > 0)
+            {
+                claims[OpenIddictConstants.Claims.Role] = roles;
+            }
+
             // debugging, return ALL claims
             /*
             foreach (var claim in result.Principal.Claims)
