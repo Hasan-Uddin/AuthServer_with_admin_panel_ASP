@@ -12,6 +12,7 @@ using Domain.Roles;
 using Domain.SmsConfigs;
 using Domain.SmtpConfigs;
 using Domain.Todos;
+using Domain.UserRoles;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -35,6 +36,7 @@ public interface IApplicationDbContext
     DbSet<District> Districts { get; }
     DbSet<Area> Areas { get; }
     DbSet<Locality> Localities { get; }
+    DbSet<UserRole> UserRoles { get; }
     EntityEntry Entry(object entity);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
