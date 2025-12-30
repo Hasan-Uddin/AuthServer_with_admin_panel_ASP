@@ -6,5 +6,6 @@ public class Role : Entity
 {
     public Guid Id { get; set; }
     public string RoleName { get; set; }
+    public string RoleCode { get; set; }
     public string Description { get; set; }
 }
