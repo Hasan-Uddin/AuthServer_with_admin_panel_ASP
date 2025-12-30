@@ -18,7 +18,8 @@ public class Me : IEndpoint
             return Results.Ok(new
             {
                 id = user.FindFirstValue(OpenIddictConstants.Claims.Subject),
-                email = user.FindFirstValue(OpenIddictConstants.Claims.Email)
+                email = user.FindFirstValue(OpenIddictConstants.Claims.Email),
+                role = user.FindFirstValue(OpenIddictConstants.Claims.Role)
             });
         });
     }
