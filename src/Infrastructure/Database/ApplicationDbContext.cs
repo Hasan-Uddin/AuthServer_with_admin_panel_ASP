@@ -51,8 +51,6 @@ public sealed class ApplicationDbContext(
 
         modelBuilder.HasDefaultSchema(Schemas.Default);
 
-        //var passwordHasher = new PasswordHasher();
-        //Console.WriteLine(passwordHasher.Hash("password")); // for admin
         modelBuilder.Entity<Role>().HasData(
             new Role
             {
@@ -86,7 +84,7 @@ public sealed class ApplicationDbContext(
             {
                 Id = Guid.Parse("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
                 RoleName = "Common Usser",
-                RoleCode = RoleCode.NormalUser,
+                RoleCode = RoleCode.PublicUser,
                 Description = "Common/Normal User"
             }
         );
@@ -94,10 +92,11 @@ public sealed class ApplicationDbContext(
             new User
             {
                 Id = Guid.Parse("ffffffff-ffff-ffff-ffff-ffffffffffff"),
-                Email = "admin@authserver.com",
-                FullName = "Default ADMIN",
-                PasswordHash = "55EF2DAE94973ADC24603DFB738E8D9F3B0B79D78AE8E111996F9C9F6AEDF9B4-604A0533DEFFDC0841B9DB1D6DF007E6",
-                CreatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc)
+                Email = "admin@auth.dapplesoft.com",
+                FullName = "Default Admin",
+                PasswordHash = "60358AD3245A0E1D8FC2CA0B0914E45C5F87143DDB2C9E81E09B4E41676F30B8-99D093AF2C44DB8DDCA9FE77BDE4A9F2", // admin12345
+                CreatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc),
+                UpdatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc)
             }
         );
         modelBuilder.Entity<UserRole>().HasData(
