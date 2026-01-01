@@ -13,6 +13,7 @@ using Domain.Roles;
 using Domain.SmsConfigs;
 using Domain.SmtpConfigs;
 using Domain.Todos;
+using Domain.UserRoles;
 using Domain.Users;
 using Infrastructure.DomainEvents;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,7 @@ public sealed class ApplicationDbContext(
     public DbSet<District> Districts { get; set; }
     public DbSet<Area> Areas { get; set; }
     public DbSet<Locality> Localities { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
     public new EntityEntry Entry(object entity) => base.Entry(entity);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,69 +51,62 @@ public sealed class ApplicationDbContext(
 
         modelBuilder.HasDefaultSchema(Schemas.Default);
 
-        //var passwordHasher = new PasswordHasher();
-        //Console.WriteLine(passwordHasher.Hash("Admin123"));
-        //Console.WriteLine(passwordHasher.Hash("User123"));
-        //Console.WriteLine(passwordHasher.Hash("Demo123"));
         modelBuilder.Entity<Role>().HasData(
             new Role
             {
                 Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
                 RoleName = "Administrator",
+                RoleCode = RoleCode.Admin,
                 Description = "System Administrator with full access"
             },
             new Role
             {
                 Id = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
                 RoleName = "Support",
+                RoleCode = RoleCode.Support,
                 Description = "Support Engineers"
             },
             new Role
             {
                 Id = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"),
                 RoleName = "Analytics",
+                RoleCode = RoleCode.Analytics,
                 Description = "Helps in Analysis"
             },
             new Role
             {
                 Id = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd"),
                 RoleName = "PaymentAdmin",
+                RoleCode = RoleCode.PaymentAdmin,
                 Description = "Asses the payments"
             },
             new Role
             {
                 Id = Guid.Parse("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
-                RoleName = "Client",
-                Description = "Common User"
+                RoleName = "Common Usser",
+                RoleCode = RoleCode.PublicUser,
+                Description = "Common/Normal User"
             }
         );
         modelBuilder.Entity<User>().HasData(
             new User
             {
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                Email = "user1@gmail.com",
-                FullName = "System Admin",
-                PasswordHash = "0CB47CF84CA0824A48EB7CDAD0B13AC83D6742E85A21B8A0FF58A235C2050DE9-ED1FD94795D453D2320B0A5444D4B31E",
-                CreatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc)
-            },
-            new User
-            {
-                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                Email = "user2@gmail.com",
-                FullName = "Normal User",
-                PasswordHash = "CDFCF4E8D89841B7A49EC50581EC9F5CA3AB0A93A9F23B78C69839B18BE43752-C4F0917170B9972DDE5015CBCFE31786",
-                CreatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc)
-            },
-            new User
-            {
-                Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                Email = "user3@gmail.com",
-                FullName = "Demo User",
-                PasswordHash = "D3A38C51393060353567AF0865FC91B4E435AB433D177AF056F79BA1AEEADA0B-852250D8F97163710CF73F51EF6EE70D",
-                CreatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc)
+                Id = Guid.Parse("ffffffff-ffff-ffff-ffff-ffffffffffff"),
+                Email = "admin@auth.dapplesoft.com",
+                FullName = "Default Admin",
+                PasswordHash = "60358AD3245A0E1D8FC2CA0B0914E45C5F87143DDB2C9E81E09B4E41676F30B8-99D093AF2C44DB8DDCA9FE77BDE4A9F2", // admin12345
+                CreatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc),
+                UpdatedAt = new DateTime(2025, 12, 16, 0, 0, 0, DateTimeKind.Utc)
             }
         );
-
+        modelBuilder.Entity<UserRole>().HasData(
+            new UserRole
+            {
+                Id = Guid.Parse("aaaaaaaa-eeee-ffff-ffff-ffffffffffff"),
+                UserId = Guid.Parse("ffffffff-ffff-ffff-ffff-ffffffffffff"),
+                RoleId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+            }
+        );
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
