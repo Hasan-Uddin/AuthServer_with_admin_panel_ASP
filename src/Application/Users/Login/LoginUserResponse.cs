@@ -8,5 +8,6 @@ public sealed record LoginUserResponse(
 );
 
 public sealed record LogInUserInfo(
-    Guid Id
+    Guid Id,
+    string RoleCode
 );
