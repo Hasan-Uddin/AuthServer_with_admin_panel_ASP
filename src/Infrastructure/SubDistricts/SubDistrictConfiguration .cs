@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.SubDistricts;
 
-internal sealed class AreaConfiguration : IEntityTypeConfiguration<SubDistrict>
+internal sealed class SubDistrictConfiguration : IEntityTypeConfiguration<SubDistrict>
 {
     public void Configure(EntityTypeBuilder<SubDistrict> builder)
     {
