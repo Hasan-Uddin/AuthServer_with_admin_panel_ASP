@@ -27,7 +27,7 @@ internal sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(x => x.PhoneCode)
                .HasMaxLength(20);
 
-        builder.Property(x => x.IsActive)
+        builder.Property(x => x.IsNew)
                .IsRequired();
     }
 }
