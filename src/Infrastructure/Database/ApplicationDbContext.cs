@@ -1,5 +1,4 @@
 using Application.Abstractions.Data;
-using Domain.Areas;
 using Domain.AuditLogs;
 using Domain.Countries;
 using Domain.Districts;
@@ -12,10 +11,12 @@ using Domain.RolePermissions;
 using Domain.Roles;
 using Domain.SmsConfigs;
 using Domain.SmtpConfigs;
+using Domain.SubDistricts;
 using Domain.Todos;
 using Domain.UserRoles;
 using Domain.Users;
 using Infrastructure.Database.Seed;
+using Infrastructure.Database.Seed.AddressSeed;
 using Infrastructure.DomainEvents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -25,8 +26,8 @@ namespace Infrastructure.Database;
 
 public sealed class ApplicationDbContext(
     DbContextOptions<ApplicationDbContext> options,
-    IDomainEventsDispatcher domainEventsDispatcher)
-    : DbContext(options), IApplicationDbContext
+    IDomainEventsDispatcher domainEventsDispatcher
+) : DbContext(options), IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<EmailVerifications> EmailVerifications { get; set; }
@@ -41,9 +42,10 @@ public sealed class ApplicationDbContext(
     public DbSet<Country> Countries { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<District> Districts { get; set; }
-    public DbSet<Area> Areas { get; set; }
+    public DbSet<SubDistrict> SubDistricts { get; set; }
     public DbSet<Locality> Localities { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+
     public new EntityEntry Entry(object entity) => base.Entry(entity);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,12 +55,12 @@ public sealed class ApplicationDbContext(
         modelBuilder.HasDefaultSchema(Schemas.Default);
 
         UsersAndRoleSeed.Apply(modelBuilder);
+
+        CountriesSeed.Apply(modelBuilder);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-
-
         int result = await base.SaveChangesAsync(cancellationToken);
 
         await PublishDomainEventsAsync();
