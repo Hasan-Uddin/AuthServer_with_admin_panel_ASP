@@ -766,6 +766,7 @@ internal static class CountriesSeed
                 PhoneCode = "",
                 IsNew = false,
             })
+            .OrderBy(c => c.Name)
             .ToArray();
 
     private static Region[] Regions() =>
@@ -778,6 +779,7 @@ internal static class CountriesSeed
                     IsNew = false,
                 })
             )
+            .OrderBy(r => r.Name)
             .ToArray();
 
     private static District[] Districts() =>
@@ -792,6 +794,7 @@ internal static class CountriesSeed
                     })
                 )
             )
+            .OrderBy(d => d.Name)
             .ToArray();
 
     private static SubDistrict[] SubDistricts() =>
@@ -808,5 +811,6 @@ internal static class CountriesSeed
                     )
                 )
             )
+            .OrderBy(sd => sd.Name)
             .ToArray();
 }
