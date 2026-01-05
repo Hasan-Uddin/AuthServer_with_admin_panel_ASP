@@ -25,6 +25,8 @@ internal sealed class Update : IEndpoint
 
         public Guid? SubDistrictId { get; set; }
 
+        public string? Address { get; set; }
+
         public UserStatus? Status { get; set; }
 
         public bool? IsMFAEnabled { get; set; }
@@ -48,6 +50,7 @@ internal sealed class Update : IEndpoint
                     RegionId: request.RegionId,
                     DistrictId: request.DistrictId,
                     SubDistrictId: request.SubDistrictId,
+                    Address: request.Address,
                     Status: request.Status,
                     IsMFAEnabled: request.IsMFAEnabled,
                     IsEmailVerified: request.IsEmailVerified

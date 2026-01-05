@@ -25,6 +25,8 @@ public sealed class User : Entity
     public Guid? DistrictId { get; set; }
     
     public Guid? SubDistrictId { get; set; }
+    
+    public string? Address { get; set; }
 
     public UserStatus Status { get; set; }
 

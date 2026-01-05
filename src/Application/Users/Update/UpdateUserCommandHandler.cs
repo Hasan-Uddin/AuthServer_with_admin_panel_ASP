@@ -88,6 +88,11 @@ internal sealed class UpdateUserCommandHandler(
             userTuple.SubDistrictId = command.SubDistrictId.Value;
         }
 
+        if (command.Address is not null)
+        {
+            userTuple.Address = command.Address;
+        }
+
         // checking if changed
         if (context.Entry(userTuple).State == EntityState.Modified)
         {
@@ -101,6 +106,7 @@ internal sealed class UpdateUserCommandHandler(
             Email: userTuple.Email,
             Phone: userTuple.Phone,
             Status: userTuple.Status,
+            Address: userTuple.Address,
             IsMFAEnabled: userTuple.IsMFAEnabled,
             IsEmailVerified: userTuple.IsEmailVerified
         );

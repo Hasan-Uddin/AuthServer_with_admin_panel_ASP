@@ -24,6 +24,8 @@ public sealed record UserResponse
 
     public Guid? SubDistrictId { get; set; }
 
+    public string? Address { get; set; }
+
     public UserStatus Status { get; init; }
 
     public DateTime? CreatedAt { get; init; }

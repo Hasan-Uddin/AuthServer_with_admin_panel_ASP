@@ -25,6 +25,7 @@ internal sealed class GetAllUsersQueryHandler(
                 RegionId = user.RegionId,
                 DistrictId = user.DistrictId,
                 SubDistrictId = user.SubDistrictId,
+                Address = user.Address,
                 Status = user.Status,
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt

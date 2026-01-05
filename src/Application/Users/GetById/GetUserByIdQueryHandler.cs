@@ -25,6 +25,7 @@ internal sealed class GetUserByIdQueryHandler(IApplicationDbContext context)
                 RegionId = u.RegionId,
                 DistrictId = u.DistrictId,
                 SubDistrictId = u.SubDistrictId,
+                Address = u.Address,
                 Status = u.Status,
                 CreatedAt = u.CreatedAt,
                 UpdatedAt = u.UpdatedAt,

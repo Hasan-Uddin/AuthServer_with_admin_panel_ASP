@@ -14,6 +14,7 @@ public sealed record UpdateUserCommand(
     Guid? DistrictId,
     Guid? SubDistrictId,
     UserStatus? Status,
+    string? Address,
     bool? IsMFAEnabled,
     bool? IsEmailVerified
 ) : ICommand<UpdateUserResponse>;
