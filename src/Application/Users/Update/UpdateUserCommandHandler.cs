@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Authentication;
+﻿using System.Globalization;
+using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Users;
@@ -15,6 +16,8 @@ internal sealed class UpdateUserCommandHandler(
 {
     public async Task<Result<UpdateUserResponse>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
+        string emailLower = command.Email?.ToLower(CultureInfo.CurrentCulture);
+
         if (command.UserId != userContext.UserId)
         {
             return (Result<UpdateUserResponse>)Result.Failure(UserErrors.Unauthorized());
@@ -28,17 +31,16 @@ internal sealed class UpdateUserCommandHandler(
             return (Result<UpdateUserResponse>)Result.Failure(UserErrors.NotFound(command.UserId));
         }
 
-
-        if (command.Email is not null)
+        if (emailLower is not null)
         {
             // Check if the new email is already used by another user
             bool emailExists = await context.Users
-                .AnyAsync(u => u.Email == command.Email && u.Id != command.UserId, cancellationToken);
+                .AnyAsync(u => u.Email == emailLower && u.Id != command.UserId, cancellationToken);
             if (emailExists)
             {
                 return (Result<UpdateUserResponse>)Result.Failure(UserErrors.EmailNotUnique);
             }
-            userTuple.Email = command.Email;
+            userTuple.Email = emailLower;
         }
 
         if (command.Fullname is not null)
@@ -66,6 +68,32 @@ internal sealed class UpdateUserCommandHandler(
             userTuple.IsEmailVerified = command.IsEmailVerified.Value;
         }
 
+        if (command.CountryId.HasValue)
+        {
+            userTuple.CountryId = command.CountryId.Value;
+        }
+
+        if (command.RegionId.HasValue)
+        {
+            userTuple.RegionId = command.RegionId.Value;
+        }
+
+        if (command.DistrictId.HasValue)
+        {
+            userTuple.DistrictId = command.DistrictId.Value;
+        }
+
+        if (command.SubDistrictId.HasValue)
+        {
+            userTuple.SubDistrictId = command.SubDistrictId.Value;
+        }
+
+        if (command.Address is not null)
+        {
+            userTuple.Address = command.Address;
+        }
+
+        // checking if changed
         if (context.Entry(userTuple).State == EntityState.Modified)
         {
             userTuple.UpdatedAt = dateTimeProvider.UtcNow;
@@ -78,6 +106,7 @@ internal sealed class UpdateUserCommandHandler(
             Email: userTuple.Email,
             Phone: userTuple.Phone,
             Status: userTuple.Status,
+            Address: userTuple.Address,
             IsMFAEnabled: userTuple.IsMFAEnabled,
             IsEmailVerified: userTuple.IsEmailVerified
         );

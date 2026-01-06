@@ -1,9 +1,11 @@
-﻿using Application.Abstractions.Authentication;
+﻿using System.Globalization;
+using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Application.Users.GetByEmail;
 
@@ -12,8 +14,9 @@ internal sealed class GetUserByEmailQueryHandler(IApplicationDbContext context, 
 {
     public async Task<Result<UserResponse>> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
     {
+        string? emailLower = query.Email.ToLower(CultureInfo.CurrentCulture);
         UserResponse? user = await context.Users
-            .Where(u => u.Email == query.Email)
+            .Where(u => u.Email == emailLower)
             .Select(u => new UserResponse
             {
                 Id = u.Id,
@@ -22,6 +25,11 @@ internal sealed class GetUserByEmailQueryHandler(IApplicationDbContext context, 
                 IsEmailVerified = u.IsEmailVerified,
                 IsMFAEnabled = u.IsMFAEnabled,
                 Phone = u.Phone,
+                CountryId = u.CountryId,
+                RegionId = u.RegionId,
+                DistrictId = u.DistrictId,
+                SubDistrictId = u.SubDistrictId,
+                Address = u.Address,
                 Status = u.Status,
                 CreatedAt = u.CreatedAt,
                 UpdatedAt = u.UpdatedAt,

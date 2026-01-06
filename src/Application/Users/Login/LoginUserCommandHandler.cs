@@ -1,6 +1,9 @@
-﻿using Application.Abstractions.Authentication;
+﻿using System.Globalization;
+using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Domain.Roles;
+using Domain.UserRoles;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
@@ -16,9 +19,10 @@ internal sealed class LoginUserCommandHandler(
 {
     public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
     {
+        string? emailLower = command.Email.ToLower(CultureInfo.CurrentCulture);
         User? user = await context.Users
             .AsNoTracking()
-            .SingleOrDefaultAsync(u => u.Email == command.Email, cancellationToken);
+            .SingleOrDefaultAsync(u => u.Email == emailLower, cancellationToken);
 
         if (user is null)
         {
@@ -32,13 +36,33 @@ internal sealed class LoginUserCommandHandler(
             return Result.Failure<LoginUserResponse>("Wrong Credentials");
         }
 
+        UserRole? userRole = await context.UserRoles
+            .AsNoTracking()
+            .SingleOrDefaultAsync(r => r.UserId == user.Id, cancellationToken);
+
+        string roleCode = string.Empty;
+        if (userRole is not null)
+        {
+            Role? role = await context.Roles
+            .AsNoTracking()
+            .SingleOrDefaultAsync(r => r.Id == userRole.RoleId, cancellationToken);
+            
+            if(role is not null)
+            {
+                roleCode = role.RoleCode;
+            }
+        }
+
         // Sign in the user (cookie session)
         await userSession.SignInAsync(user, cancellationToken);
 
         var response = new LoginUserResponse(
             Token: "",                // tokenProvider.Create(user),
-            RefreshToken: "Coming soon",
-            User: new LogInUserInfo(Id: user.Id)
+            RefreshToken: "",
+            User: new LogInUserInfo(
+                Id: user.Id,
+                RoleCode: roleCode
+            )
         );
         return response;
     }

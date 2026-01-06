@@ -3,10 +3,8 @@ using System.Reflection;
 using Application;
 using HealthChecks.UI.Client;
 using Infrastructure;
-using Infrastructure.Database;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
-using OpenIddict.Abstractions;
 using Serilog;
 using Web.Api;
 using Web.Api.Extensions;
@@ -36,74 +34,17 @@ builder.Services.AddCors(options => options.AddPolicy("Allowed_Origins", builder
 
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
-builder.Services.AddOpenIddict()
-    .AddCore(options =>
-    {
-        ArgumentNullException.ThrowIfNull(options);
-        options.UseEntityFrameworkCore()
-               .UseDbContext<ApplicationDbContext>();
-    })
-    .AddServer(options =>
-    {
-        options.SetAuthorizationEndpointUris("/connect/authorize");
-        options.SetTokenEndpointUris("/connect/token");
-        options.SetUserInfoEndpointUris("/connect/userinfo");
-        options.SetIssuer(builder.Configuration["IssuerUrl"] ?? "https://" + "localhost:5001"); // Issuer URL (authapi)
-        options.AllowAuthorizationCodeFlow()
-               .RequireProofKeyForCodeExchange();
+// ----------------- OpenIddict configuration ----------------------
+builder.Services.AddOpenIddictConfiguration(builder.Configuration);
 
-        options.AddDevelopmentEncryptionCertificate()
-               .AddDevelopmentSigningCertificate();
+// Authentication configuration
+builder.Services.AddAuthenticationConfiguration(builder.Configuration);
 
-        options.RegisterScopes(
-            OpenIddictConstants.Scopes.OpenId,
-            OpenIddictConstants.Scopes.Profile,
-            OpenIddictConstants.Scopes.Email);
-
-        options.UseAspNetCore()
-               .EnableAuthorizationEndpointPassthrough()
-               .EnableTokenEndpointPassthrough()
-               .EnableUserInfoEndpointPassthrough();
-    });
-
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = "AuthCookie";
-        options.DefaultSignInScheme = "AuthCookie";
-        options.DefaultChallengeScheme = "AuthCookie";
-    })
-    .AddCookie("AuthCookie", options =>
-    {
-        options.Cookie.Name = "auth_server_session";
-        options.Cookie.HttpOnly = true;
-        //options.Cookie.SameSite = SameSiteMode.Lax;
-        options.Cookie.SameSite = SameSiteMode.None;
-
-        options.Cookie.SecurePolicy = builder.Configuration.GetValue<bool>("AuthServer:AlwaysHTTPS")
-                ? CookieSecurePolicy.Always
-                : CookieSecurePolicy.SameAsRequest;
-        options.LoginPath = "/login";
-        // do NOT redirect for API calls
-        options.Events.OnRedirectToLogin = context =>
-        {
-            if (context.Request.Path.StartsWithSegments("/api"))
-            {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return Task.CompletedTask;
-            }
-
-            string frontendLoginUrl = builder.Configuration["FrontendLoginUrl"] ?? "http://localhost:4200/login"; // Frontend login URL
-            string redirectUri = Uri.EscapeDataString(context.Request.Path + context.Request.QueryString);
-            string finalRedirectUrl = $"{frontendLoginUrl}?ReturnUrl={redirectUri}";
-
-            context.Response.Redirect(finalRedirectUrl);
-            return Task.CompletedTask;
-        };
-    });
+// ------------------------------------------------------------
 
 WebApplication app = builder.Build();
 
-bool? AlwaysRunSwagger = builder.Configuration.GetValue<bool>("AlwaysRunSwagger");
+bool? AlwaysRunSwagger = builder.Configuration.GetValue<bool>("AuthServer:AlwaysRunSwagger");
 
 if (app.Environment.IsDevelopment() || AlwaysRunSwagger == true)
 {
@@ -118,7 +59,7 @@ app.MapHealthChecks("health", new HealthCheckOptions
 });
 
 // ------------------ proxy (need for SSL)----------------------
-string[]? knownProxies = builder.Configuration.GetSection("KnownProxies").Get<string[]>();
+string[]? knownProxies = builder.Configuration.GetSection("AuthServer:KnownProxies").Get<string[]>();
 
 var forwardedHeadersOptions = new ForwardedHeadersOptions
 {
@@ -129,7 +70,7 @@ if (knownProxies != null)
 {
     foreach (string proxy in knownProxies)
     {
-        if (System.Net.IPAddress.TryParse(proxy, out IPAddress? ip))
+        if (IPAddress.TryParse(proxy, out IPAddress? ip))
         {
             forwardedHeadersOptions.KnownProxies.Add(ip);
         }
@@ -137,7 +78,7 @@ if (knownProxies != null)
 }
 else
 {
-    forwardedHeadersOptions.KnownProxies.Add(IPAddress.Parse("172.18.240.206"));
+    forwardedHeadersOptions.KnownProxies.Add(IPAddress.Parse("172.18.240.206")); // remote IP address
 }
 app.UseForwardedHeaders(forwardedHeadersOptions);
 // ------------------------------------------------------------
@@ -145,6 +86,11 @@ app.UseForwardedHeaders(forwardedHeadersOptions);
 app.UseCertificateForwarding();
 
 app.UseRequestContextLogging();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseExceptionHandler();
 
@@ -160,7 +106,7 @@ app.UseAuthorization();
 
 app.MapEndpoints();
 
-app.MapGet("/remote-ip", (HttpContext ctx) =>
+app.MapGet("/remote-ip", (HttpContext ctx) =>   // Debug, get remote IP address
     ctx.Connection.RemoteIpAddress?.ToString()
     + "\n\ntest-scheme: "
     + ctx.Request.Scheme);
