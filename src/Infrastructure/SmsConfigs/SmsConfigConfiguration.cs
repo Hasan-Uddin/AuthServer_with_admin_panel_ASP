@@ -8,9 +8,22 @@ internal sealed class SmsConfigConfiguration : IEntityTypeConfiguration<SmsConfi
 {
     public void Configure(EntityTypeBuilder<SmsConfig> builder)
     {
-        builder.HasKey(e => e.SmsId);
-        builder.Property(e => e.SmsToken)
-               .IsRequired()
-               .HasMaxLength(4);
+        builder.HasKey(e => e.Id);
+
+        builder.Property(e => e.ProviderName)
+            .HasMaxLength(100);
+
+        builder.Property(e => e.ProviderUrl);
+
+        builder.Property(e => e.ApiUrl)
+            .IsRequired()
+            .HasMaxLength(150);
+
+        builder.Property(e => e.IsActive)
+            .IsRequired();
+
+        builder.Property(e => e.Token)
+            .IsRequired()
+            .HasMaxLength(100);
     }
 }
