@@ -1,5 +1,5 @@
 ﻿
-namespace Application.Abstractions.Otp;
+namespace Application.Abstractions.Otps;
 
 public interface IOtpGenerator
 {

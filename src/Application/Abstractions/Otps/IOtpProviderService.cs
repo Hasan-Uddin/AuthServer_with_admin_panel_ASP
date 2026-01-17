@@ -1,7 +1,7 @@
 ﻿using Domain.Otps;
 using SharedKernel;
 
-namespace Application.Abstractions.Otp;
+namespace Application.Abstractions.Otps;
 
 public interface IOtpProviderService
 {
