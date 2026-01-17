@@ -11,19 +11,19 @@ internal sealed class SmsConfigConfiguration : IEntityTypeConfiguration<SmsConfi
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.ProviderName)
-            .HasMaxLength(100);
+            .HasMaxLength(50);
 
         builder.Property(e => e.ProviderUrl);
 
+        builder.Property(e => e.Token)
+            .IsRequired()
+            .HasMaxLength(80);
+
         builder.Property(e => e.ApiUrl)
             .IsRequired()
-            .HasMaxLength(150);
+            .HasMaxLength(80);
 
         builder.Property(e => e.IsActive)
             .IsRequired();
-
-        builder.Property(e => e.Token)
-            .IsRequired()
-            .HasMaxLength(100);
     }
 }
